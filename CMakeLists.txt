@@ -5,7 +5,10 @@ project(tutorial VERSION 1.0 DESCRIPTION "Tutorial"
 		LANGUAGES CXX C)
 
 add_executable(tutorial 
-	src/main.cpp)
+	src/main.cpp
+	src/Shader.cpp
+	include/Shader.h
+	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
 
@@ -31,9 +34,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glfw)
 
+FetchContent_Declare(
+        glm
+        GIT_REPOSITORY https://github.com/g-truc/glm.git
+        GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(glm)
 
 target_include_directories(tutorial PRIVATE 
 	"${glm_SOURCE_DIR}"
+	"${CMAKE_SOURCE_DIR}/include"
 	"${OPENGL_INCLUDE_DIR}")
 
 target_link_libraries(tutorial PRIVATE glad OpenGL::GL glfw)
