@@ -7,6 +7,7 @@ project(tutorial VERSION 1.0 DESCRIPTION "Tutorial"
 add_executable(tutorial 
 	src/main.cpp
 	src/Shader.cpp
+	src/stb_image.cpp
 	include/Shader.h
 	)
 
@@ -44,6 +45,7 @@ FetchContent_MakeAvailable(glm)
 target_include_directories(tutorial PRIVATE 
 	"${glm_SOURCE_DIR}"
 	"${CMAKE_SOURCE_DIR}/include"
+	"${CMAKE_SOURCE_DIR}/external/stb_image"
 	"${OPENGL_INCLUDE_DIR}")
 
 target_link_libraries(tutorial PRIVATE glad OpenGL::GL glfw)
