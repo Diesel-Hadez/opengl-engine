@@ -7,10 +7,17 @@ project(tutorial VERSION 1.0 DESCRIPTION "Tutorial"
 add_executable(tutorial 
 	src/main.cpp
 	src/Shader.cpp
+	src/CubeScene.cpp
 	src/FPCamera.cpp
 	src/stb_image.cpp
+	src/Game.cpp
+	src/Scene.cpp
+	
 	include/Shader.h
 	include/FPCamera.h
+	include/Game.h
+	include/Scene.h
+	include/CubeScene.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
