@@ -16,6 +16,7 @@ add_executable(tutorial
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
+	src/GPUData/Position.cpp
 	
 	src/Texture.cpp
 	
@@ -28,6 +29,8 @@ add_executable(tutorial
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
+	include/GPUData/Position.h
+	
 	include/SampleVertices.h
 	include/Texture.h
 	)
