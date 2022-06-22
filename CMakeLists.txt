@@ -15,6 +15,7 @@ add_executable(tutorial
 	
 	src/GPUData.cpp
 	src/PositionTexture.cpp
+	src/Texture.cpp
 	
 	include/Shader.h
 	include/FPCamera.h
@@ -25,6 +26,7 @@ add_executable(tutorial
 	include/GPUData.h
 	include/PositionTexture.h
 	include/SampleVertices.h
+	include/Texture.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")

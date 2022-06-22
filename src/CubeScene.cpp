@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "FPCamera.h"
 #include "PositionTexture.h"
+#include "Texture.h"
 #include "SampleVertices.h"
 
 #include "stb_image.h"
@@ -108,7 +109,8 @@ CubeScene::CubeScene():
 m_Shader(std::make_unique<Shader>("../resources/cubescene.vs","../resources/cubescene.fs")),
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
 m_DeltaTime(0.0f),
-m_CubeGPUData(std::make_unique<PositionTexture>())
+m_CubeGPUData(std::make_unique<PositionTexture>()),
+m_CubeTexture(std::make_unique<Texture>("../resources/image.jpg"))
 {
     m_SceneName = "CubeScene";
     
@@ -139,26 +141,6 @@ m_CubeGPUData(std::make_unique<PositionTexture>())
  
     m_CubeGPUData->Prepare(const_cast<float*>(TexturedCube), sizeof(TexturedCube));
 
-
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    int width, height, nrChannels;
-
-    stbi_set_flip_vertically_on_load(true);
-
-    unsigned char* data = stbi_load("../resources/image.jpg", &width, &height, &nrChannels, 0);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    
-    stbi_image_free(data);
 }
 
 CubeScene::~CubeScene() {

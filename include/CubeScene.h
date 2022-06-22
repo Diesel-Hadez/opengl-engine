@@ -8,11 +8,13 @@
 class PositionTexture;
 class Shader;
 class FPCamera;
+class Texture;
 class CubeScene: public Scene {
 private:
     std::unique_ptr<Shader> m_Shader;
     std::unique_ptr<FPCamera> m_FPCamera;
     std::unique_ptr<PositionTexture> m_CubeGPUData;
+    std::unique_ptr<Texture> m_CubeTexture;
     float m_DeltaTime;
     
     unsigned int texture1;
