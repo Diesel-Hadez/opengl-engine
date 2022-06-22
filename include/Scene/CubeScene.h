@@ -16,8 +16,6 @@ private:
     std::unique_ptr<PositionTexture> m_CubeGPUData;
     std::unique_ptr<Texture> m_CubeTexture;
     float m_DeltaTime;
-    
-    unsigned int texture1;
 public:
     virtual void Update() override;
     virtual void Render() override;
