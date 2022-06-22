@@ -100,7 +100,7 @@ void CubeScene::Render() {
             model       = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             m_Shader->Set<glm::mat4>("model", model);
 
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+            glDrawArrays(GL_TRIANGLES, 0, TexturedCubeVertices);
         }
 }
 
