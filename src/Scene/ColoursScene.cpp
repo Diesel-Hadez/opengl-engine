@@ -1,10 +1,10 @@
-#include "Scene/CubeScene.h"
-#include "Shader.h"
+#include "Scene/ColoursScene.h"
 #include "Game.h"
 #include "FPCamera.h"
-#include "GPUData/PositionTexture.h"
-#include "Texture.h"
+#include "Shader.h"
+#include "GPUData/Position.h"
 #include "SampleVertices.h"
+
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -12,7 +12,7 @@
 #include <GLFW/glfw3.h>
 
 
-static CubeScene *	curGameScene	= nullptr;
+static ColoursScene *	curGameScene	= nullptr;
 
 namespace {
     float currentFrame = 0;
@@ -30,7 +30,7 @@ namespace {
                                  glm::vec3(1.5f, 0.2f, -1.5f),
                                  glm::vec3(-1.3f, 1.0f, -1.5f)};
 }
-void CubeScene::Update() {
+void ColoursScene::Update() {
 	currentFrame   = glfwGetTime();
 	m_DeltaTime    = currentFrame - lastFrame;
 	lastFrame      = currentFrame;
@@ -50,10 +50,8 @@ void CubeScene::Update() {
         this->m_End = true;
 }
 
-void CubeScene::Render() {
+void ColoursScene::Render() {
     m_Shader->Use();
-    m_Shader->Set<int>("texture1", 0);
-    m_CubeTexture->Bind(GL_TEXTURE0);
     
     
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -64,52 +62,46 @@ void CubeScene::Render() {
 
         glm::mat4 view = glm::mat4(1.0f);
 
-        constexpr float radius = 10.0f;
-
-        float camX = sin(glfwGetTime()) * radius;
-        float camY = cos(glfwGetTime()) * radius;
-
         glm::mat4 projection = glm::mat4(1.0f);
         glm::mat4 model      = glm::mat4(1.0f);
-        model                = glm::rotate(model,
-                            (float)glfwGetTime() * glm::radians(50.0f),
-                            glm::vec3(0.5f, 1.0f, 0.0f));
+    
         projection           = glm::perspective(glm::radians(45.0f),
                                       (float)(WINDOW_WIDTH) / (float)(WINDOW_HEIGHT),
                                       0.1f,
                                       100.0f);
-        // view                 = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-        // view = glm::lookAt(glm::vec3(camX, 0.00, camY), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
         view = m_FPCamera->GetViewMatrix();
 
         m_Shader->Set<glm::mat4>("projection", projection);
         m_Shader->Set<glm::mat4>("view", view);
         m_Shader->Set<glm::mat4>("model", model);
+        
+        m_Shader->Set<glm::vec3>("lightColor", glm::vec3(1.0f, 0.5f, 0.31f));
+        m_Shader->Set<glm::vec3>("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
         m_CubeGPUData->Bind();
 
-        glDrawArrays(GL_TRIANGLES, 0, TexturedCubeVertices);
-
-        for (int i = 0; i < 10; i++) {
-            glm::mat4 model = glm::mat4(1.0f);
-            model           = glm::translate(model, cubePositions[i]);
-
-            float angle = 20.0f * i;
-            model       = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            m_Shader->Set<glm::mat4>("model", model);
-
-            glDrawArrays(GL_TRIANGLES, 0, TexturedCubeVertices);
-        }
+        glDrawArrays(GL_TRIANGLES, 0, CubeVertices);
+        
+        
+        m_LightCubeShader->Use();
+        model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.5f));
+        model = glm::scale(model, glm::vec3(0.3f));
+        m_LightCubeShader->Set<glm::mat4>("model", model);
+        m_LightCubeShader->Set<glm::mat4>("projection", projection);
+        m_LightCubeShader->Set<glm::mat4>("view", view);
+        m_LightGPUData->Bind();
+        glDrawArrays(GL_TRIANGLES, 0, CubeVertices);
 }
 
-CubeScene::CubeScene():
-m_Shader(std::make_unique<Shader>("../resources/cubescene.vs","../resources/cubescene.fs")),
+ColoursScene::ColoursScene():
+m_Shader(std::make_unique<Shader>("../resources/lighting1.vs","../resources/lighting1.fs")),
+m_LightCubeShader(std::make_unique<Shader>("../resources/lightingcube1.vs","../resources/lightingcube1.fs")),
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
 m_DeltaTime(0.0f),
-m_CubeGPUData(std::make_unique<PositionTexture>()),
-m_CubeTexture(std::make_unique<Texture>("../resources/image.jpg"))
+m_CubeGPUData(std::make_unique<Position>()),
+m_LightGPUData(std::make_unique<Position>())
 {
-    m_SceneName = "CubeScene";
+    m_SceneName = "ColoursScene";
     
 	//Dirty Hack for callbacks
 	curGameScene = this;
@@ -136,11 +128,12 @@ m_CubeTexture(std::make_unique<Texture>("../resources/image.jpg"))
 	});
     
  
-    m_CubeGPUData->Prepare(const_cast<float*>(TexturedCube), sizeof(TexturedCube));
-
+    m_CubeGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
+    m_LightGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
+    
 }
 
-CubeScene::~CubeScene() {
+ColoursScene::~ColoursScene() {
     //Reset Callback
     glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
 	{});
