@@ -1,3 +1,6 @@
 build
 debugbuild
 .cache
+.kdev4
+opengl_scratchpad.kdev4
+
