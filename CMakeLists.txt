@@ -7,24 +7,27 @@ project(tutorial VERSION 1.0 DESCRIPTION "Tutorial"
 add_executable(tutorial 
 	src/main.cpp
 	src/Shader.cpp
-	src/CubeScene.cpp
 	src/FPCamera.cpp
 	src/stb_image.cpp
 	src/Game.cpp
-	src/Scene.cpp
 	
-	src/GPUData.cpp
-	src/PositionTexture.cpp
+	src/Scene/Scene.cpp
+	src/Scene/CubeScene.cpp
+	
+	src/GPUData/GPUData.cpp
+	src/GPUData/PositionTexture.cpp
+	
 	src/Texture.cpp
 	
 	include/Shader.h
 	include/FPCamera.h
 	include/Game.h
-	include/Scene.h
-	include/CubeScene.h
 	
-	include/GPUData.h
-	include/PositionTexture.h
+	include/Scene/Scene.h
+	include/Scene/CubeScene.h
+	
+	include/GPUData/GPUData.h
+	include/GPUData/PositionTexture.h
 	include/SampleVertices.h
 	include/Texture.h
 	)

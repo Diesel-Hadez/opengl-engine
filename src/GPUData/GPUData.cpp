@@ -1,4 +1,4 @@
-#include "GPUData.h"
+#include "GPUData/GPUData.h"
 #include <glad/glad.h>
 
 

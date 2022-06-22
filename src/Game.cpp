@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "CubeScene.h"
+#include "Scene/CubeScene.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <iostream>

@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "Scene/Scene.h"
 
 Scene::Scene() : m_End(false)
 {

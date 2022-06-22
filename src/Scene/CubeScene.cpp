@@ -1,8 +1,8 @@
-#include "CubeScene.h"
+#include "Scene/CubeScene.h"
 #include "Shader.h"
 #include "Game.h"
 #include "FPCamera.h"
-#include "PositionTexture.h"
+#include "GPUData/PositionTexture.h"
 #include "Texture.h"
 #include "SampleVertices.h"
 
