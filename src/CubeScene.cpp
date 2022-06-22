@@ -54,9 +54,7 @@ void CubeScene::Update() {
 void CubeScene::Render() {
     m_Shader->Use();
     m_Shader->Set<int>("texture1", 0);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture1);
+    m_CubeTexture->Bind(GL_TEXTURE0);
     
     
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
