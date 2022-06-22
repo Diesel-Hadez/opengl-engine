@@ -13,11 +13,18 @@ add_executable(tutorial
 	src/Game.cpp
 	src/Scene.cpp
 	
+	src/GPUData.cpp
+	src/PositionTexture.cpp
+	
 	include/Shader.h
 	include/FPCamera.h
 	include/Game.h
 	include/Scene.h
 	include/CubeScene.h
+	
+	include/GPUData.h
+	include/PositionTexture.h
+	include/SampleVertices.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
