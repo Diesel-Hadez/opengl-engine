@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "Shader.h"
+#include "FPCamera.h"
 
 #include <stb_image.h>
 
@@ -14,7 +15,15 @@ constexpr int SCR_WIDTH  = 800;
 constexpr int SCR_HEIGHT = 600;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void processInput(GLFWwindow* window);
+// Build Camera
+//
+FPCamera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 auto main(int argc, char* argv[]) -> int {
     std::cout << "Hello World!" << std::endl;
@@ -35,6 +44,13 @@ auto main(int argc, char* argv[]) -> int {
 
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset) {
+        camera.ProcessMouseScroll(yOffset);
+    });
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cerr << "Failed to initialize GLAD" << std::endl;
@@ -130,6 +146,11 @@ auto main(int argc, char* argv[]) -> int {
                                  glm::vec3(-1.3f, 1.0f, -1.5f)};
 
     while (!glfwWindowShouldClose(window)) {
+
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime          = currentFrame - lastFrame;
+        lastFrame          = currentFrame;
+
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -155,7 +176,8 @@ auto main(int argc, char* argv[]) -> int {
                                       0.1f,
                                       100.0f);
         // view                 = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-        view = glm::lookAt(glm::vec3(camX, 0.00, camY), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+        // view = glm::lookAt(glm::vec3(camX, 0.00, camY), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+        view = camera.GetViewMatrix();
 
         shaderProg.Set<glm::mat4>("projection", projection);
         shaderProg.Set<glm::mat4>("view", view);
@@ -190,4 +212,30 @@ void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
+    using Movement = FPCamera::Movement;
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ProcessKeyboard(Movement::FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ProcessKeyboard(Movement::BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ProcessKeyboard(Movement::LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ProcessKeyboard(Movement::RIGHT, deltaTime);
+}
+
+void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
+    static bool   firstMouse = true;
+    static double lastX      = static_cast<double>(SCR_WIDTH / 2.f),
+                  lastY      = static_cast<double>(SCR_HEIGHT / 2.f);
+    if (firstMouse) {
+        lastX      = xPos;
+        lastY      = yPos;
+        firstMouse = false;
+    }
+    double xOffset = xPos - lastX;
+    double yOffset = lastY - yPos;
+    lastX          = xPos;
+    lastY          = yPos;
+    camera.ProcessMouseMovement(xOffset, yOffset);
 }

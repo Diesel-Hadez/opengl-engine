@@ -7,8 +7,10 @@ project(tutorial VERSION 1.0 DESCRIPTION "Tutorial"
 add_executable(tutorial 
 	src/main.cpp
 	src/Shader.cpp
+	src/FPCamera.cpp
 	src/stb_image.cpp
 	include/Shader.h
+	include/FPCamera.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
