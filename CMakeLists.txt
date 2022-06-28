@@ -14,12 +14,16 @@ add_executable(tutorial
 	src/Scene/Scene.cpp
 	src/Scene/CubeScene.cpp
 	src/Scene/ColoursScene.cpp
+	src/Scene/PlaneScene.cpp
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
 	src/GPUData/Position.cpp
 	
 	src/Texture.cpp
+	
+	src/GameObject/GameObject.cpp
+	src/GameObject/Plane.cpp
 	
 	include/Shader.h
 	include/FPCamera.h
@@ -28,6 +32,7 @@ add_executable(tutorial
 	include/Scene/Scene.h
 	include/Scene/CubeScene.h
 	include/Scene/ColoursScene.h
+	include/Scene/PlaneScene.h
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
@@ -35,6 +40,9 @@ add_executable(tutorial
 	
 	include/SampleVertices.h
 	include/Texture.h
+	
+	include/GameObject/GameObject.h
+	include/GameObject/Plane.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
