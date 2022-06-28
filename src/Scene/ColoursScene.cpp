@@ -80,7 +80,7 @@ void ColoursScene::Render() {
 
         m_CubeGPUData->Bind();
 
-        glDrawArrays(GL_TRIANGLES, 0, CubeVertices);
+        glDrawArrays(GL_TRIANGLES, 0, CubeVertices);    
         
         
         m_LightCubeShader->Use();
