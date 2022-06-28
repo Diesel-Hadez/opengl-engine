@@ -15,10 +15,12 @@ add_executable(tutorial
 	src/Scene/CubeScene.cpp
 	src/Scene/ColoursScene.cpp
 	src/Scene/PlaneScene.cpp
+	src/Scene/DiffuseScene.cpp
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
 	src/GPUData/Position.cpp
+	src/GPUData/PositionNormals.cpp
 	
 	src/Texture.cpp
 	
@@ -33,10 +35,12 @@ add_executable(tutorial
 	include/Scene/CubeScene.h
 	include/Scene/ColoursScene.h
 	include/Scene/PlaneScene.h
+	include/Scene/DiffuseScene.h
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
 	include/GPUData/Position.h
+	include/GPUData/PositionNormals.h
 	
 	include/SampleVertices.h
 	include/Texture.h

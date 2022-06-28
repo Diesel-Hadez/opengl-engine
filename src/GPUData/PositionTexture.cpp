@@ -1,5 +1,4 @@
 #include "GPUData/PositionTexture.h"
-#include <glad/glad.h>
 
 void PositionTexture::Prepare(float vertices[], std::size_t size) {
     GPUData::Prepare(vertices, size);

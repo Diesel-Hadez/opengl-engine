@@ -1,8 +1,9 @@
-#include "Scene/ColoursScene.h"
+#include "Scene/DiffuseScene.h"
 #include "Game.h"
 #include "FPCamera.h"
 #include "Shader.h"
 #include "GPUData/Position.h"
+#include "GPUData/PositionNormals.h"
 #include "SampleVertices.h"
 
 
@@ -12,13 +13,13 @@
 #include <GLFW/glfw3.h>
 
 
-static ColoursScene *	curGameScene	= nullptr;
+static DiffuseScene *	curGameScene	= nullptr;
 
 namespace {
     float currentFrame = 0;
     float lastFrame = 0;
 }
-void ColoursScene::Update() {
+void DiffuseScene::Update() {
 	currentFrame   = glfwGetTime();
 	m_DeltaTime    = currentFrame - lastFrame;
 	lastFrame      = currentFrame;
@@ -38,8 +39,8 @@ void ColoursScene::Update() {
         this->m_End = true;
 }
 
-void ColoursScene::Render() {
-    m_Shader->Use();
+void DiffuseScene::Render() {
+        m_Shader->Use();
     
     
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -52,6 +53,8 @@ void ColoursScene::Render() {
 
         glm::mat4 projection = glm::mat4(1.0f);
         glm::mat4 model      = glm::mat4(1.0f);
+        
+        glm::vec3 lampPos = glm::vec3(0.0f, 1.0f, 0.5f);
     
         projection           = glm::perspective(glm::radians(45.0f),
                                       (float)(WINDOW_WIDTH) / (float)(WINDOW_HEIGHT),
@@ -65,14 +68,15 @@ void ColoursScene::Render() {
         
         m_Shader->Set<glm::vec3>("lightColor", glm::vec3(1.0f, 0.5f, 0.31f));
         m_Shader->Set<glm::vec3>("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
+        m_Shader->Set<glm::vec3>("lightPos", lampPos);
 
         m_CubeGPUData->Bind();
 
-        glDrawArrays(GL_TRIANGLES, 0, CubeVertices);    
+        glDrawArrays(GL_TRIANGLES, 0, NormalCubeVertices);    
         
         
         m_LightCubeShader->Use();
-        model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.5f));
+        model = glm::translate(glm::mat4(1.0f), lampPos);
         model = glm::scale(model, glm::vec3(0.3f));
         m_LightCubeShader->Set<glm::mat4>("model", model);
         m_LightCubeShader->Set<glm::mat4>("projection", projection);
@@ -81,15 +85,15 @@ void ColoursScene::Render() {
         glDrawArrays(GL_TRIANGLES, 0, CubeVertices);
 }
 
-ColoursScene::ColoursScene():
-m_Shader(std::make_unique<Shader>("../resources/lighting1.vs","../resources/lighting1.fs")),
+DiffuseScene::DiffuseScene():
+m_Shader(std::make_unique<Shader>("../resources/lightingDiffuse.vs","../resources/lightingDiffuse.fs")),
 m_LightCubeShader(std::make_unique<Shader>("../resources/lightingcube1.vs","../resources/lightingcube1.fs")),
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
 m_DeltaTime(0.0f),
-m_CubeGPUData(std::make_unique<Position>()),
+m_CubeGPUData(std::make_unique<PositionNormals>()),
 m_LightGPUData(std::make_unique<Position>())
 {
-    m_SceneName = "ColoursScene";
+    m_SceneName = "DiffuseScene";
     
 	//Dirty Hack for callbacks
 	curGameScene = this;
@@ -116,12 +120,12 @@ m_LightGPUData(std::make_unique<Position>())
 	});
     
  
-    m_CubeGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
+    m_CubeGPUData->Prepare(const_cast<float*>(NormalCube), sizeof(NormalCube));
     m_LightGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
     
 }
 
-ColoursScene::~ColoursScene() {
+DiffuseScene::~DiffuseScene() {
     //Reset Callback
     glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
 	{});

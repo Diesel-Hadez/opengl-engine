@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Scene/ColoursScene.h"
+#include "Scene/DiffuseScene.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <iostream>
@@ -59,7 +59,7 @@ void Game::InitOpenGL()
 
 void Game::Run() {
     InitOpenGL();
-	m_Scenes.emplace_back(std::make_unique<ColoursScene>());
+	m_Scenes.emplace_back(std::make_unique<DiffuseScene>());
 	while ((m_Scenes.size() > 0) && (!glfwWindowShouldClose(m_Window)))
 	{
 		this->Loop();
