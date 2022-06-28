@@ -16,6 +16,7 @@ add_executable(tutorial
 	src/Scene/ColoursScene.cpp
 	src/Scene/PlaneScene.cpp
 	src/Scene/DiffuseScene.cpp
+	src/Scene/PhysicsScene.cpp
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
@@ -36,6 +37,7 @@ add_executable(tutorial
 	include/Scene/ColoursScene.h
 	include/Scene/PlaneScene.h
 	include/Scene/DiffuseScene.h
+	include/Scene/PhysicsScene.h
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
