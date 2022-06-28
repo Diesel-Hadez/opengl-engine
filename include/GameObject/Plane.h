@@ -3,11 +3,11 @@
 #include "GameObject.h"
 #include <memory>
 
-class Position;
+class PositionNormals;
 class Shader;
 class Plane: public GameObject {
 private:
-    std::unique_ptr<Position> m_CubeGPUData;
+    std::unique_ptr<PositionNormals> m_CubeGPUData;
     
     double m_Width;
     double m_Length;

@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "FPCamera.h"
 #include "GameObject/Plane.h"
-#include "GPUData/Position.h"
+#include "GPUData/PositionNormals.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -63,7 +63,7 @@ void PlaneScene::Render() {
 }
 
 PlaneScene::PlaneScene():
-m_Shader(std::make_unique<Shader>("../resources/lightingcube1.vs","../resources/uniformcolour.fs")),
+m_Shader(std::make_unique<Shader>("../resources/lightingDiffuse.vs","../resources/lightingDiffuse.fs")),
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
 m_DeltaTime(0.0f),
 m_Plane(std::make_unique<Plane>(glm::vec3(1.f), 10.f, 10.f))

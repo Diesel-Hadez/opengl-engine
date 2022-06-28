@@ -1,6 +1,6 @@
 #include "GameObject/Plane.h"
 #include "Shader.h"
-#include "GPUData/Position.h"
+#include "GPUData/PositionNormals.h"
 #include "SampleVertices.h"
 
 #include <glm/glm.hpp>
@@ -8,13 +8,13 @@
 #include <glm/gtc/type_ptr.hpp>
 
 Plane::Plane(const glm::vec3& position, double width, double length): 
-    m_CubeGPUData(std::make_unique<Position>()) {
+    m_CubeGPUData(std::make_unique<PositionNormals>()) {
     m_Position = position;
     m_Width = width;
     m_Length = length;
     m_Height = 1.f;
     
-    m_CubeGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
+    m_CubeGPUData->Prepare(const_cast<float*>(NormalCube), sizeof(NormalCube));
 }
 
 // Assumes shader sets projection and view appropriately
@@ -25,9 +25,11 @@ void Plane::Render(Shader* shader=nullptr){
             model = glm::scale(model, glm::vec3(m_Width, m_Height, m_Length));
             model = glm::translate(model, m_Position);
             shader->Set<glm::mat4>("model", model);
-            shader->Set<glm::vec3>("color", glm::vec3(0.5f, 0.0f, 0.0f));
+            shader->Set<glm::vec3>("lightPos", m_Position + glm::vec3(0.0f, 20.0f, 0.0f));
+            shader->Set<glm::vec3>("objectColor", glm::vec3(0.5f, 0.0f, 0.0f));
+            shader->Set<glm::vec3>("lightColor", glm::vec3(1.0f));
             
             m_CubeGPUData->Bind();
-            glDrawArrays(GL_TRIANGLES, 0, CubeVertices);
+            glDrawArrays(GL_TRIANGLES, 0, NormalCubeVertices);
     }
 }
