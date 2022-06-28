@@ -49,8 +49,12 @@ void PhysicsScene::Update() {
 	}
 		const r3d::Transform& transform = m_CuboidBody->getTransform();
 		const r3d::Vector3& position = transform.getPosition();
-		std::cout << "X: " << position.x << " Y: " << position.y << " Z: " << position.z << std::endl;
+		const r3d::Quaternion& rotation = transform.getOrientation();
+		
+		std::cout << "Position X: " << position.x << " Y: " << position.y << " Z: " << position.z << std::endl;
+		//std::cout << "Rotation X: " << rotation.x << " Y: " << rotation.y << " Z: " << rotation.z << " W: " << rotation.w<< std::endl;
 		m_Cuboid->SetPosition(glm::vec3(position.x, position.y, position.z));
+		m_Cuboid->SetRotation(glm::quat(rotation.x, rotation.y, rotation.z, rotation.w));
 }
 
 void PhysicsScene::Render() {
