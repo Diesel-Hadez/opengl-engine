@@ -29,6 +29,9 @@ void PhysicsScene::Update() {
 	
 	while (accumulator >= timeStep) {
 		m_World->update(timeStep);
+		const r3d::Transform& transform = m_Body->getTransform();
+		const r3d::Vector3& position = transform.getPosition();
+		std::cout << "X: " << position.x << " Y: " << position.y << " Z: " << position.z << "\n";
 		m_Cuboid->Update(timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
@@ -87,7 +90,15 @@ m_Cuboid(std::make_unique<Cuboid>(glm::vec3(0,4,0), 0.1, 0.1,0.1))
     m_SceneName = "PhysicsScene";
 	
 	m_World = m_PhysicsCommon.createPhysicsWorld();
+	m_Transform.setPosition(r3d::Vector3(0.f, -4.f, 0.f));
+	
+	r3d::BoxShape * boxShape = m_PhysicsCommon.createBoxShape(r3d::Vector3(10.f, 1.f, 10.f));
+	r3d::Transform transform = r3d::Transform::identity();
+	
 	m_Body = m_World->createRigidBody(m_Transform);
+	
+	m_Body->enableGravity(false);
+	r3d::Collider* collider = m_Body->addCollider(boxShape, transform);
     
 	//Dirty Hack for callbacks
 	curGameScene = this;

@@ -10,6 +10,7 @@ protected:
 public:
     GameObject() = default;
     GameObject(glm::vec3 position) {m_Position = position;}
+    glm::vec3 GetPosition() const noexcept {return m_Position;}
     virtual ~GameObject() = default;
     virtual void Render(Shader*)=0;
     virtual void Update(double)=0;
