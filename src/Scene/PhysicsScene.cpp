@@ -19,23 +19,31 @@ namespace {
     
 }
 void PhysicsScene::Update() {
+	constexpr double timeStep = 1.0 / 60.0;
+	double accumulator {0.0};
 	currentFrame   = glfwGetTime();
 	m_DeltaTime    = currentFrame - lastFrame;
 	lastFrame      = currentFrame;
-    if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, m_DeltaTime);
-	if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::BACKWARD, m_DeltaTime);
-	if (glfwGetKey(Game::m_Window, GLFW_KEY_A) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::LEFT, m_DeltaTime);
-	if (glfwGetKey(Game::m_Window, GLFW_KEY_D) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::RIGHT, m_DeltaTime);
-	if (glfwGetKey(Game::m_Window, GLFW_KEY_Q) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::UP, m_DeltaTime);
-	if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, m_DeltaTime);
-	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        this->m_End = true;
+	accumulator += m_DeltaTime;
+	
+	while (accumulator >= timeStep) {
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::BACKWARD, timeStep);
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_A) == GLFW_PRESS)
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::LEFT, timeStep);
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_D) == GLFW_PRESS)
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::RIGHT, timeStep);
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_Q) == GLFW_PRESS)
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::UP, timeStep);
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, timeStep);
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			this->m_End = true;
+		
+		accumulator -= timeStep;
+	}
 }
 
 void PhysicsScene::Render() {
