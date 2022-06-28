@@ -27,6 +27,7 @@ void PhysicsScene::Update() {
 	accumulator += m_DeltaTime;
 	
 	while (accumulator >= timeStep) {
+		m_World->update(timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)

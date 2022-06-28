@@ -1,11 +1,11 @@
-#ifndef PLANE_H
-#define PLANE_H
+#ifndef CUBOID_H
+#define CUBOID_H
 #include "GameObject.h"
 #include <memory>
 
 class PositionNormals;
 class Shader;
-class Plane: public GameObject {
+class Cuboid: public GameObject {
 private:
     std::unique_ptr<PositionNormals> m_CubeGPUData;
     
@@ -13,10 +13,10 @@ private:
     double m_Length;
     double m_Height;
 public:
-    Plane(const glm::vec3& position, double width, double length);
+    Cuboid(const glm::vec3& position, double width, double height, double length);
     
     virtual void Render(Shader* shader) override;
-    virtual void Update(double) override {}
+    virtual void Update(double) override;
 };
 
 #endif
