@@ -29,9 +29,9 @@ void PhysicsScene::Update() {
 	
 	while (accumulator >= timeStep) {
 		m_World->update(timeStep);
-		const r3d::Transform& transform = m_Body->getTransform();
+		const r3d::Transform& transform = m_CuboidBody->getTransform();
 		const r3d::Vector3& position = transform.getPosition();
-		std::cout << "X: " << position.x << " Y: " << position.y << " Z: " << position.z << "\n";
+		std::cout << "X: " << position.x << " Y: " << position.y << " Z: " << position.z << std::endl;
 		m_Cuboid->Update(timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
@@ -82,23 +82,35 @@ m_Shader(std::make_unique<Shader>("../resources/lightingDiffuse.vs","../resource
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
 m_DeltaTime(0.0f),
 m_Plane(std::make_unique<Plane>(glm::vec3(0.f, -4.f, 0.f), 10.f, 10.f)),
-m_Position(0, 20, 0),
-m_Orientation(r3d::Quaternion::identity()),
-m_Transform(m_Position, m_Orientation),
-m_Cuboid(std::make_unique<Cuboid>(glm::vec3(0,4,0), 0.1, 0.1,0.1))
+m_PlanePosition(0, 20, 0),
+m_PlaneOrientation(r3d::Quaternion::identity()),
+m_PlaneTransform(m_PlanePosition, m_PlaneOrientation),
+m_Cuboid(std::make_unique<Cuboid>(glm::vec3(0,4,0), 0.1, 0.1,0.1)),
+m_CuboidPosition(0, 20, 0),
+m_CuboidOrientation(r3d::Quaternion::identity()),
+m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
 {
     m_SceneName = "PhysicsScene";
 	
 	m_World = m_PhysicsCommon.createPhysicsWorld();
-	m_Transform.setPosition(r3d::Vector3(0.f, -4.f, 0.f));
+	m_PlaneTransform.setPosition(r3d::Vector3(0.f, -4.f, 0.f));
+	m_CuboidTransform.setPosition(r3d::Vector3(0.f, 4.f, 0.f));
 	
+	// For plane
 	r3d::BoxShape * boxShape = m_PhysicsCommon.createBoxShape(r3d::Vector3(10.f, 1.f, 10.f));
+	// For cuboid
+	r3d::BoxShape * boxShape2 = m_PhysicsCommon.createBoxShape(r3d::Vector3(0.1, 0.1, 0.1));
+	
+	// For both
 	r3d::Transform transform = r3d::Transform::identity();
 	
-	m_Body = m_World->createRigidBody(m_Transform);
+	m_PlaneBody = m_World->createRigidBody(m_PlaneTransform);
+	m_CuboidBody = m_World->createRigidBody(m_CuboidTransform);
 	
-	m_Body->enableGravity(false);
-	r3d::Collider* collider = m_Body->addCollider(boxShape, transform);
+	m_PlaneBody->enableGravity(false);
+	
+	r3d::Collider* planeCollider = m_PlaneBody->addCollider(boxShape, transform);
+	r3d::Collider* cuboidCollider = m_CuboidBody->addCollider(boxShape2, transform);
     
 	//Dirty Hack for callbacks
 	curGameScene = this;

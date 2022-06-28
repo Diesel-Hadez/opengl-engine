@@ -23,11 +23,17 @@ private:
     r3d::PhysicsCommon m_PhysicsCommon;
     r3d::PhysicsWorld* m_World;
     
-    r3d::Vector3 m_Position;
-    r3d::Quaternion m_Orientation;
-    r3d::Transform m_Transform;
+    r3d::Vector3 m_PlanePosition;
+    r3d::Quaternion m_PlaneOrientation;
+    r3d::Transform m_PlaneTransform;
     
-    r3d::RigidBody* m_Body;
+    
+    r3d::Vector3 m_CuboidPosition;
+    r3d::Quaternion m_CuboidOrientation;
+    r3d::Transform m_CuboidTransform;
+    
+    r3d::RigidBody* m_PlaneBody; 
+    r3d::RigidBody* m_CuboidBody; 
     
     const r3d::decimal timeStep = 1.0f / 60.0f;
 public:
