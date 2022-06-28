@@ -14,7 +14,7 @@ protected:
     void AddVec1() {m_Variables.emplace_back(1);}
 public:
     void Bind();
-    virtual void Prepare(float data[], std::size_t size) = 0;
+    virtual void Prepare(float data[], std::size_t size);
     GPUData() = default;
     virtual ~GPUData() = default;
 };
