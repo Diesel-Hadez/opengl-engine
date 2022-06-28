@@ -25,7 +25,7 @@ void Plane::Render(Shader* shader=nullptr){
             model = glm::translate(model, m_Position);
             model = glm::scale(model, glm::vec3(m_Width, m_Height, m_Length));
             shader->Set<glm::mat4>("model", model);
-            shader->Set<glm::vec3>("lightPos", m_Position + glm::vec3(0.0f, 20.0f, 0.0f));
+            shader->Set<glm::vec3>("lightPos", m_Position + glm::vec3(0.0f, 1.0f, 0.0f));
             shader->Set<glm::vec3>("objectColor", glm::vec3(0.5f, 0.0f, 0.0f));
             shader->Set<glm::vec3>("lightColor", glm::vec3(1.0f));
             
