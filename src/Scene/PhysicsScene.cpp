@@ -20,7 +20,7 @@ namespace {
     
 }
 void PhysicsScene::Update() {
-	constexpr double timeStep = 1.0 / 60.0;
+	constexpr double timeStep = 1.0 / 120.0;
 	double accumulator {0.0};
 	currentFrame   = glfwGetTime();
 	m_DeltaTime    = currentFrame - lastFrame;
@@ -29,9 +29,6 @@ void PhysicsScene::Update() {
 	
 	while (accumulator >= timeStep) {
 		m_World->update(timeStep);
-		const r3d::Transform& transform = m_CuboidBody->getTransform();
-		const r3d::Vector3& position = transform.getPosition();
-		std::cout << "X: " << position.x << " Y: " << position.y << " Z: " << position.z << std::endl;
 		m_Cuboid->Update(timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
@@ -50,6 +47,10 @@ void PhysicsScene::Update() {
 		
 		accumulator -= timeStep;
 	}
+		const r3d::Transform& transform = m_CuboidBody->getTransform();
+		const r3d::Vector3& position = transform.getPosition();
+		std::cout << "X: " << position.x << " Y: " << position.y << " Z: " << position.z << std::endl;
+		m_Cuboid->SetPosition(glm::vec3(position.x, position.y, position.z));
 }
 
 void PhysicsScene::Render() {
@@ -93,11 +94,11 @@ m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
     m_SceneName = "PhysicsScene";
 	
 	m_World = m_PhysicsCommon.createPhysicsWorld();
-	m_PlaneTransform.setPosition(r3d::Vector3(0.f, -4.f, 0.f));
+	m_PlaneTransform.setPosition(r3d::Vector3(0.f, -40.f, 0.f));
 	m_CuboidTransform.setPosition(r3d::Vector3(0.f, 4.f, 0.f));
 	
 	// For plane
-	r3d::BoxShape * boxShape = m_PhysicsCommon.createBoxShape(r3d::Vector3(10.f, 1.f, 10.f));
+	r3d::BoxShape * boxShape = m_PhysicsCommon.createBoxShape(r3d::Vector3(100.f, 10.f, 100.f));
 	// For cuboid
 	r3d::BoxShape * boxShape2 = m_PhysicsCommon.createBoxShape(r3d::Vector3(0.1, 0.1, 0.1));
 	
@@ -112,6 +113,9 @@ m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
 	r3d::Collider* planeCollider = m_PlaneBody->addCollider(boxShape, transform);
 	r3d::Collider* cuboidCollider = m_CuboidBody->addCollider(boxShape2, transform);
     
+	m_PlaneBody->enableGravity(false);
+	m_PlaneBody->setType(r3d::BodyType::STATIC);
+	
 	//Dirty Hack for callbacks
 	curGameScene = this;
 
