@@ -13,8 +13,6 @@ Cuboid::Cuboid(const glm::vec3& position, double width, double height, double le
     m_Width = width;
     m_Height = height;
     m_Length = length;
-    m_Height = 1.f;
-    
     m_CubeGPUData->Prepare(const_cast<float*>(NormalCube), sizeof(NormalCube));
 }
 
@@ -27,7 +25,7 @@ void Cuboid::Render(Shader* shader=nullptr){
             model = glm::translate(model, m_Position);
             shader->Set<glm::mat4>("model", model);
             shader->Set<glm::vec3>("lightPos", m_Position + glm::vec3(0.0f, 20.0f, 0.0f));
-            shader->Set<glm::vec3>("objectColor", glm::vec3(0.5f, 0.0f, 0.0f));
+            shader->Set<glm::vec3>("objectColor", glm::vec3(0.0f, 0.5f, 0.0f));
             shader->Set<glm::vec3>("lightColor", glm::vec3(1.0f));
             
             m_CubeGPUData->Bind();

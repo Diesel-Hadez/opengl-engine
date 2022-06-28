@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "FPCamera.h"
 #include "GameObject/Plane.h"
+#include "GameObject/Cuboid.h"
 #include "GPUData/PositionNormals.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -28,6 +29,7 @@ void PhysicsScene::Update() {
 	
 	while (accumulator >= timeStep) {
 		m_World->update(timeStep);
+		m_Cuboid->Update(timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)
@@ -69,16 +71,18 @@ void PhysicsScene::Render() {
         m_Shader->Set<glm::mat4>("view", view);
         
         m_Plane->Render(m_Shader.get());
+        m_Cuboid->Render(m_Shader.get());
 }
 
 PhysicsScene::PhysicsScene():
 m_Shader(std::make_unique<Shader>("../resources/lightingDiffuse.vs","../resources/lightingDiffuse.fs")),
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
 m_DeltaTime(0.0f),
-m_Plane(std::make_unique<Plane>(glm::vec3(1.f), 10.f, 10.f)),
+m_Plane(std::make_unique<Plane>(glm::vec3(0.f, -4.f, 0.f), 10.f, 10.f)),
 m_Position(0, 20, 0),
 m_Orientation(r3d::Quaternion::identity()),
-m_Transform(m_Position, m_Orientation)
+m_Transform(m_Position, m_Orientation),
+m_Cuboid(std::make_unique<Cuboid>(glm::vec3(0,4,0), 0.1, 0.1,0.1))
 {
     m_SceneName = "PhysicsScene";
 	
