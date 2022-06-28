@@ -41,6 +41,8 @@ set(OpenGL_GL_PREFERENCE "GLVND")
 
 find_package(OpenGL REQUIRED)
 
+find_package(ReactPhysics3D REQUIRED)
+
 
 FetchContent_Declare(
 	glad
@@ -74,4 +76,5 @@ target_include_directories(tutorial PRIVATE
 	"${CMAKE_SOURCE_DIR}/external/stb_image"
 	"${OPENGL_INCLUDE_DIR}")
 
-target_link_libraries(tutorial PRIVATE glad OpenGL::GL glfw)
+target_link_libraries(tutorial PRIVATE glad OpenGL::GL glfw
+	ReactPhysics3D::ReactPhysics3D)
