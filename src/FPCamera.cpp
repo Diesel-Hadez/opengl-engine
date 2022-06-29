@@ -3,11 +3,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <GLFW/glfw3.h>
+#include "Game.h"
+
 const float FPCamera::YAW         = -90.0f;
 const float FPCamera::PITCH       = 0.0f;
 const float FPCamera::SPEED       = 2.5f;
 const float FPCamera::SENSITIVITY = 0.1f;
 const float FPCamera::ZOOM        = 45.0f;
+
+static FPCamera * curFPCamera = nullptr;
 void FPCamera::ProcessMouseMovement(float xOffset, float yOffset, bool constrainPitch) noexcept {
     xOffset *= MouseSensitivity;
     yOffset *= MouseSensitivity;
@@ -75,6 +80,34 @@ FPCamera::FPCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     , Yaw(yaw)
     , Pitch(pitch) {
     UpdateCameraVectors();
+    
+    curFPCamera = this;
+    
+
+	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
+	{
+		static bool firstMouse = true;
+		static double lastX = static_cast<double>(WINDOW_WIDTH / 2.f), lastY = static_cast<double>(WINDOW_HEIGHT / 2.f);
+		if (firstMouse)
+		{
+			lastX = xPos;
+			lastY = yPos;
+			firstMouse = false;
+		}
+		double xOffset = xPos - lastX;
+		double yOffset = lastY - yPos;
+		lastX = xPos;
+		lastY = yPos;
+		curFPCamera->ProcessMouseMovement(xOffset, yOffset);
+	});
+	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {
+		curFPCamera->ProcessMouseScroll(yOffset);
+	});
 }
 
-FPCamera::~FPCamera() {}
+FPCamera::~FPCamera() {
+    //Reset Callback
+    glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
+	{});
+}

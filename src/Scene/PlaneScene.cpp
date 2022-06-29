@@ -10,9 +10,6 @@
 
 #include <GLFW/glfw3.h>
 
-
-static PlaneScene *	curGameScene	= nullptr;
-
 namespace {
     float currentFrame = 0;
     float lastFrame = 0;
@@ -69,37 +66,10 @@ m_DeltaTime(0.0f),
 m_Plane(std::make_unique<Plane>(glm::vec3(1.f), 10.f, 10.f))
 {
     m_SceneName = "PlaneScene";
-    
-	//Dirty Hack for callbacks
-	curGameScene = this;
-
-	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
-	{
-		static bool firstMouse = true;
-		static double lastX = static_cast<double>(WINDOW_WIDTH / 2.f), lastY = static_cast<double>(WINDOW_HEIGHT / 2.f);
-		if (firstMouse)
-		{
-			lastX = xPos;
-			lastY = yPos;
-			firstMouse = false;
-		}
-		double xOffset = xPos - lastX;
-		double yOffset = lastY - yPos;
-		lastX = xPos;
-		lastY = yPos;
-		curGameScene->m_FPCamera->ProcessMouseMovement(xOffset, yOffset);
-	});
-	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {
-		curGameScene->m_FPCamera->ProcessMouseScroll(yOffset);
-	});
 
 }
 
 PlaneScene::~PlaneScene() {
-    //Reset Callback
-    glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
-	{});
     
 }
 

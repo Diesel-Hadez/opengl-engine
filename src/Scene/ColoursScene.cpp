@@ -11,9 +11,6 @@
 
 #include <GLFW/glfw3.h>
 
-
-static ColoursScene *	curGameScene	= nullptr;
-
 namespace {
     float currentFrame = 0;
     float lastFrame = 0;
@@ -91,30 +88,6 @@ m_LightGPUData(std::make_unique<Position>())
 {
     m_SceneName = "ColoursScene";
     
-	//Dirty Hack for callbacks
-	curGameScene = this;
-
-	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
-	{
-		static bool firstMouse = true;
-		static double lastX = static_cast<double>(WINDOW_WIDTH / 2.f), lastY = static_cast<double>(WINDOW_HEIGHT / 2.f);
-		if (firstMouse)
-		{
-			lastX = xPos;
-			lastY = yPos;
-			firstMouse = false;
-		}
-		double xOffset = xPos - lastX;
-		double yOffset = lastY - yPos;
-		lastX = xPos;
-		lastY = yPos;
-		curGameScene->m_FPCamera->ProcessMouseMovement(xOffset, yOffset);
-	});
-	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {
-		curGameScene->m_FPCamera->ProcessMouseScroll(yOffset);
-	});
-    
  
     m_CubeGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
     m_LightGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
@@ -122,8 +95,4 @@ m_LightGPUData(std::make_unique<Position>())
 }
 
 ColoursScene::~ColoursScene() {
-    //Reset Callback
-    glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
-	{});
-    
 }
