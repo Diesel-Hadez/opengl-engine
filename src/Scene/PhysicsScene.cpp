@@ -51,6 +51,8 @@ void PhysicsScene::Update() {
 		const r3d::Vector3& position = transform.getPosition();
 		const r3d::Quaternion& rotation = transform.getOrientation();
 		
+		const glm::vec3 cameraPos = m_FPCamera->Position;
+		
 		std::cout << "Position X: " << position.x << " Y: " << position.y << " Z: " << position.z << std::endl;
 		//std::cout << "Rotation X: " << rotation.x << " Y: " << rotation.y << " Z: " << rotation.z << " W: " << rotation.w<< std::endl;
 		m_Cuboid->SetPosition(glm::vec3(position.x, position.y, position.z));
@@ -87,24 +89,25 @@ m_Shader(std::make_unique<Shader>("../resources/lightingDiffuse.vs","../resource
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
 m_DeltaTime(0.0f),
 m_Plane(std::make_unique<Plane>(glm::vec3(0.f, -4.f, 0.f), 10.f, 10.f)),
-m_PlanePosition(0, 20, 0),
+m_PlanePosition(0, -4, 0),
 m_PlaneOrientation(r3d::Quaternion::identity()),
 m_PlaneTransform(m_PlanePosition, m_PlaneOrientation),
-m_Cuboid(std::make_unique<Cuboid>(glm::vec3(0,4,0), 0.1, 0.1,0.1)),
-m_CuboidPosition(0, 20, 0),
+m_Cuboid(std::make_unique<Cuboid>(glm::vec3(0.f,4.f,0.f), 0.1f, 0.1f,0.1f)),
+m_CuboidPosition(0, 4, 0),
 m_CuboidOrientation(r3d::Quaternion::identity()),
 m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
 {
     m_SceneName = "PhysicsScene";
 	
 	m_World = m_PhysicsCommon.createPhysicsWorld();
-	m_PlaneTransform.setPosition(r3d::Vector3(0.f, -40.f, 0.f));
-	m_CuboidTransform.setPosition(r3d::Vector3(0.f, 4.f, 0.f));
+	
 	
 	// For plane
-	r3d::BoxShape * boxShape = m_PhysicsCommon.createBoxShape(r3d::Vector3(100.f, 10.f, 100.f));
+	// The parameters are divided by 2, similar to how for a sphere you use a radius
+	// instead of diameter, here we use the size from the origin to the side.
+	r3d::BoxShape * boxShape = m_PhysicsCommon.createBoxShape(r3d::Vector3(5.f, 0.5f, 5.f));
 	// For cuboid
-	r3d::BoxShape * boxShape2 = m_PhysicsCommon.createBoxShape(r3d::Vector3(0.1, 0.1, 0.1));
+	r3d::BoxShape * boxShape2 = m_PhysicsCommon.createBoxShape(r3d::Vector3(0.05f, 0.05f, 0.05f));
 	
 	// For both
 	r3d::Transform transform = r3d::Transform::identity();

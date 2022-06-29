@@ -21,8 +21,8 @@ void Cuboid::Render(Shader* shader=nullptr){
     if (shader) {
             shader->Use();
             glm::mat4 model(1.f);
-            model = glm::scale(model, glm::vec3(m_Width, m_Height, m_Length));
             model = glm::translate(model, m_Position);
+            model = glm::scale(model, glm::vec3(m_Width, m_Height, m_Length));
             model = model * glm::mat4_cast(m_Rotation);
             
             shader->Set<glm::mat4>("model", model);
