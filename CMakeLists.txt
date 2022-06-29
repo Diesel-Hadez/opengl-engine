@@ -57,8 +57,13 @@ set(OpenGL_GL_PREFERENCE "GLVND")
 
 find_package(OpenGL REQUIRED)
 
-find_package(ReactPhysics3D REQUIRED)
-
+FetchContent_Declare(
+	ReactPhysics3D
+	GIT_REPOSITORY https://github.com/DanielChappuis/reactphysics3d.git
+	GIT_TAG		v0.9.0
+	GIT_PROGRESS TRUE
+	)
+FetchContent_MakeAvailable(ReactPhysics3D)
 
 FetchContent_Declare(
 	glad
@@ -93,4 +98,4 @@ target_include_directories(tutorial PRIVATE
 	"${OPENGL_INCLUDE_DIR}")
 
 target_link_libraries(tutorial PRIVATE glad OpenGL::GL glfw
-	ReactPhysics3D::ReactPhysics3D)
+	reactphysics3d)

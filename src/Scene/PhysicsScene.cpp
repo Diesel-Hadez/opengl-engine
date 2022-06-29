@@ -44,17 +44,17 @@ void PhysicsScene::Update() {
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, timeStep);
 		
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_I) == GLFW_PRESS)
-			m_CuboidBody->applyForceToCenterOfMass(r3d::Vector3(10,0,0));
+			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(10,0,0));
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_K) == GLFW_PRESS)
-			m_CuboidBody->applyForceToCenterOfMass(r3d::Vector3(-10,0,0));
+			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(-10,0,0));
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_L) == GLFW_PRESS)
-			m_CuboidBody->applyForceToCenterOfMass(r3d::Vector3(0,0,10));
+			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,0,10));
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_J) == GLFW_PRESS)
-			m_CuboidBody->applyForceToCenterOfMass(r3d::Vector3(0,0,-10));
+			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,0,-10));
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_U) == GLFW_PRESS)
-			m_CuboidBody->applyForceToCenterOfMass(r3d::Vector3(0,50,0));
+			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,50,0));
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_O) == GLFW_PRESS)
-			m_CuboidBody->applyForceToCenterOfMass(r3d::Vector3(0,-50,0));
+			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,-50,0));
 		
 		
 		
