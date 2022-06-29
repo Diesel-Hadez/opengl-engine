@@ -11,9 +11,17 @@
 
 #include <GLFW/glfw3.h>
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 namespace {
     float currentFrame = 0;
     float lastFrame = 0;
+	
+	static ImGuiIO* io;
+	
+	auto cursorMode = GLFW_CURSOR_DISABLED;
+	auto tabPressed = false;
 }
 void PhysicsScene::Update() {
 	constexpr double timeStep = 1.0 / 120.0;
@@ -51,6 +59,21 @@ void PhysicsScene::Update() {
 			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,50,0));
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_O) == GLFW_PRESS)
 			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,-50,0));
+		if (glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_PRESS) {
+			tabPressed = true;
+		}
+		if (tabPressed && glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_RELEASE) {
+			tabPressed = false;
+			
+			if (cursorMode == GLFW_CURSOR_DISABLED) {
+				cursorMode = GLFW_CURSOR_NORMAL;
+			}
+			else {
+					cursorMode = GLFW_CURSOR_DISABLED;
+			}
+			
+			glfwSetInputMode(Game::m_Window, GLFW_CURSOR, cursorMode);
+		}
 		
 		
 		
@@ -59,41 +82,72 @@ void PhysicsScene::Update() {
 		
 		accumulator -= timeStep;
 	}
-		const r3d::Transform& transform = m_CuboidBody->getTransform();
-		const r3d::Vector3& position = transform.getPosition();
-		const r3d::Quaternion& rotation = transform.getOrientation();
-		
-		const glm::vec3 cameraPos = m_FPCamera->Position;
-		
-		std::cout << "Position X: " << position.x << " Y: " << position.y << " Z: " << position.z << std::endl;
-		//std::cout << "Rotation X: " << rotation.x << " Y: " << rotation.y << " Z: " << rotation.z << " W: " << rotation.w<< std::endl;
-		m_Cuboid->SetPosition(glm::vec3(position.x, position.y, position.z));
-		m_Cuboid->SetRotation(glm::quat(rotation.x, rotation.y, rotation.z, rotation.w));
+	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		ImGui::Begin("Properties");
+		{
+			const r3d::Transform& transform = m_CuboidBody->getTransform();
+			const r3d::Vector3& cubePosition = transform.getPosition();
+			const r3d::Quaternion& cubeRotation = transform.getOrientation();
+			
+			ImGui::Text("Cube Position: (%f, %f, %f)",
+						cubePosition.x,
+						cubePosition.y,
+						cubePosition.z);
+			
+			ImGui::Text("Cube Rotation: (%f, %f, %f, %f)",
+						cubeRotation.x,
+						cubeRotation.y,
+						cubeRotation.z,
+						cubeRotation.w);
+			
+			m_Cuboid->SetPosition(glm::vec3(cubePosition.x, cubePosition.y, cubePosition.z));
+			m_Cuboid->SetRotation(glm::quat(cubeRotation.x, cubeRotation.y, cubeRotation.z, cubeRotation.w));
+			
+			
+		}
+		{
+			const glm::vec3 cameraPos = m_FPCamera->Position;
+			
+			ImGui::Text("Camera Position: (%f, %f, %f)",
+						cameraPos.x,
+						cameraPos.y,
+						cameraPos.z);
+		}
+		ImGui::End();
+	}
 }
 
 void PhysicsScene::Render() {
     m_Shader->Use();
-    
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-        m_Shader->Use();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 view = glm::mat4(1.0f);
+	m_Shader->Use();
 
-        glm::mat4 projection = glm::mat4(1.0f);
-        projection           = glm::perspective(glm::radians(45.0f),
-                                      (float)(WINDOW_WIDTH) / (float)(WINDOW_HEIGHT),
-                                      0.1f,
-                                      100.0f);
-        view = m_FPCamera->GetViewMatrix();
+	glm::mat4 view = glm::mat4(1.0f);
 
-        m_Shader->Set<glm::mat4>("projection", projection);
-        m_Shader->Set<glm::mat4>("view", view);
-        
-        m_Plane->Render(m_Shader.get());
-        m_Cuboid->Render(m_Shader.get());
+	glm::mat4 projection = glm::mat4(1.0f);
+	projection           = glm::perspective(glm::radians(45.0f),
+									(float)(WINDOW_WIDTH) / (float)(WINDOW_HEIGHT),
+									0.1f,
+									100.0f);
+	view = m_FPCamera->GetViewMatrix();
+
+	m_Shader->Set<glm::mat4>("projection", projection);
+	m_Shader->Set<glm::mat4>("view", view);
+	
+	m_Plane->Render(m_Shader.get());
+	m_Cuboid->Render(m_Shader.get());
+	
+		
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 PhysicsScene::PhysicsScene():
@@ -135,6 +189,16 @@ m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
 	m_PlaneBody->enableGravity(false);
 	m_PlaneBody->setType(r3d::BodyType::STATIC);
 
+	
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	
+	io = &ImGui::GetIO();
+	
+	ImGui::StyleColorsDark();
+	
+	ImGui_ImplGlfw_InitForOpenGL(Game::m_Window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
 }
 
 PhysicsScene::~PhysicsScene() {

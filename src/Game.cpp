@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Scene/ImguiScene.h"
+#include "Scene/PhysicsScene.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <iostream>
@@ -59,7 +59,7 @@ void Game::InitOpenGL()
 
 void Game::Run() {
     InitOpenGL();
-	m_Scenes.emplace_back(std::make_unique<ImguiScene>());
+	m_Scenes.emplace_back(std::make_unique<PhysicsScene>());
 	while ((m_Scenes.size() > 0) && (!glfwWindowShouldClose(m_Window)))
 	{
 		this->Loop();
