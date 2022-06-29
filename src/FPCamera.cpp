@@ -53,6 +53,7 @@ glm::mat4 FPCamera::GetViewMatrix() const noexcept {
     return glm::lookAt(Position, Position + Front, Up);
 }
 
+
 void FPCamera::UpdateCameraVectors() noexcept {
     glm::vec3 front;
     front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));

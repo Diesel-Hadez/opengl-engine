@@ -22,8 +22,8 @@ void Cuboid::Render(Shader* shader=nullptr){
             shader->Use();
             glm::mat4 model(1.f);
             model = glm::translate(model, m_Position);
-            model = glm::scale(model, glm::vec3(m_Width, m_Height, m_Length));
             model = model * glm::mat4_cast(m_Rotation);
+            model = glm::scale(model, glm::vec3(m_Width, m_Height, m_Length));
             
             shader->Set<glm::mat4>("model", model);
             shader->Set<glm::vec3>("lightPos", m_Position + glm::vec3(0.0f, 20.0f, 0.0f));
