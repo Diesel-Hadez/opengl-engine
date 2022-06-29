@@ -27,6 +27,7 @@ namespace {
     float lastFrame    = 0;
 }  // namespace
 void MenuScene::Update() {
+    glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     constexpr double timeStep = 1.0 / 120.0;
     double           accumulator{0.0};
     currentFrame = glfwGetTime();
@@ -39,11 +40,6 @@ void MenuScene::Update() {
 
         accumulator -= timeStep;
     }
-
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
     ImGui::Begin("Scene");
 
     if (ImGui::Button("ColoursScene")) {
@@ -74,15 +70,11 @@ void MenuScene::Update() {
 void MenuScene::Render() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 MenuScene::MenuScene()
     : m_DeltaTime(0.0f) {
     m_SceneName = "MenuScene";
-    glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 MenuScene::~MenuScene() {}

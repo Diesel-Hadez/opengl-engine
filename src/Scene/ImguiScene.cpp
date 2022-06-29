@@ -37,11 +37,6 @@ void ImguiScene::Update() {
 	while (accumulator >= timeStep) {		
 		accumulator -= timeStep;
 	}
-	
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-	
 	if (show_demo_window) {
 		ImGui::ShowDemoWindow(&show_demo_window);
 	}
@@ -51,9 +46,6 @@ void ImguiScene::Update() {
 void ImguiScene::Render() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 ImguiScene::ImguiScene():

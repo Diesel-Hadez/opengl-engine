@@ -19,8 +19,15 @@ namespace {
 
 void Game::Loop() {
     try {
-     m_Scenes.back()->Update();
-     m_Scenes.back()->Render();   
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		m_Scenes.back()->Update();
+		m_Scenes.back()->Render();
+		
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
     catch (const std::exception &e) {
 			std::cerr << "ERROR IN SCENE: " << m_Scenes.back()->m_SceneName << ": " << e.what() << "\nReverting to previous scene...\n";

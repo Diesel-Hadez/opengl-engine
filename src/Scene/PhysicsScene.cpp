@@ -18,8 +18,6 @@ namespace {
     float currentFrame = 0;
     float lastFrame = 0;
 	
-	static ImGuiIO* io;
-	
 	auto cursorMode = GLFW_CURSOR_DISABLED;
 	auto tabPressed = false;
 }
@@ -82,9 +80,6 @@ void PhysicsScene::Update() {
 		accumulator -= timeStep;
 	}
 	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
 		ImGui::Begin("Properties");
 		{
 			const r3d::Transform& transform = m_CuboidBody->getTransform();
@@ -143,10 +138,6 @@ void PhysicsScene::Render() {
 	m_Plane->Render(m_Shader.get());
 	m_Cuboid->Render(m_Shader.get());
 	
-		
-
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 PhysicsScene::PhysicsScene():
