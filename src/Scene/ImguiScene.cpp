@@ -31,11 +31,10 @@ void ImguiScene::Update() {
 	lastFrame      = currentFrame;
 	accumulator += m_DeltaTime;
 	
+	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		this->m_End = true;
+	
 	while (accumulator >= timeStep) {		
-		
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-			this->m_End = true;
-		
 		accumulator -= timeStep;
 	}
 	
@@ -55,7 +54,6 @@ void ImguiScene::Render() {
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		
 }
 
 ImguiScene::ImguiScene():
@@ -63,21 +61,8 @@ m_DeltaTime(0.0f)
 {
     m_SceneName = "ImguiScene";
 	
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	
-	io = &ImGui::GetIO();
-	
-	ImGui::StyleColorsDark();
-	
-	ImGui_ImplGlfw_InitForOpenGL(Game::m_Window, true);
-	ImGui_ImplOpenGL3_Init("#version 330");
-	
 }
 
 ImguiScene::~ImguiScene() {
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
 }
 

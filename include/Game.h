@@ -14,6 +14,7 @@ public:
 private:
     Game();
     void InitOpenGL();
+	void InitImgui();
     void Loop();
 public:
     std::vector<std::unique_ptr<Scene>> m_Scenes;

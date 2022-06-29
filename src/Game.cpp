@@ -1,11 +1,21 @@
 #include "Game.h"
-#include "Scene/PhysicsScene.h"
+#include "Scene/MenuScene.h"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <GLFW/glfw3.h>
 
+
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 GLFWwindow * Game::m_Window = nullptr;
+
+namespace {
+	static ImGuiIO* io;
+	static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);	
+}
 
 void Game::Loop() {
     try {
@@ -56,10 +66,25 @@ void Game::InitOpenGL()
 	glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow * window, int width, int height) {glViewport(0, 0, width, height); });
 }
 
+void Game::InitImgui()
+{	
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	
+	io = &ImGui::GetIO();
+	
+	ImGui::StyleColorsDark();
+	
+	ImGui_ImplGlfw_InitForOpenGL(Game::m_Window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+}
+
+
 
 void Game::Run() {
     InitOpenGL();
-	m_Scenes.emplace_back(std::make_unique<PhysicsScene>());
+	InitImgui();
+	m_Scenes.emplace_back(std::make_unique<MenuScene>());
 	while ((m_Scenes.size() > 0) && (!glfwWindowShouldClose(m_Window)))
 	{
 		this->Loop();
@@ -75,4 +100,7 @@ Game::Game()
 
 Game::~Game()
 {
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 }

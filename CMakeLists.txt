@@ -18,6 +18,7 @@ add_executable(tutorial
 	src/Scene/DiffuseScene.cpp
 	src/Scene/PhysicsScene.cpp
 	src/Scene/ImguiScene.cpp
+	src/Scene/MenuScene.cpp
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
@@ -41,6 +42,7 @@ add_executable(tutorial
 	include/Scene/DiffuseScene.h
 	include/Scene/PhysicsScene.h
 	include/Scene/ImguiScene.h
+	include/Scene/MenuScene.h
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
@@ -104,6 +106,8 @@ if (NOT imgui_POPULATED)
     set(IMGUI_INCLUDE_DIR ${imgui_SOURCE_DIR}/)
     file(GLOB IMGUI_SOURCES ${imgui_SOURCE_DIR}/*.cpp)
     file(GLOB IMGUI_HEADERS ${imgui_SOURCE_DIR}/*.h)
+    
+    # Will probably need to modify this for emscripten or other backends.
     set(IMGUI_GLFW_SOURCE 
     ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
     ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp

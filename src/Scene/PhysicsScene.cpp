@@ -31,10 +31,7 @@ void PhysicsScene::Update() {
 	lastFrame      = currentFrame;
 	accumulator += m_DeltaTime;
 	
-	while (accumulator >= timeStep) {
-		m_World->update(timeStep);
-		m_Cuboid->Update(timeStep);
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::BACKWARD, timeStep);
@@ -74,11 +71,13 @@ void PhysicsScene::Update() {
 			
 			glfwSetInputMode(Game::m_Window, GLFW_CURSOR, cursorMode);
 		}
-		
-		
-		
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			this->m_End = true;
+		
+	
+	while (accumulator >= timeStep) {
+		m_World->update(timeStep);
+		m_Cuboid->Update(timeStep);
 		
 		accumulator -= timeStep;
 	}
@@ -188,17 +187,6 @@ m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
     
 	m_PlaneBody->enableGravity(false);
 	m_PlaneBody->setType(r3d::BodyType::STATIC);
-
-	
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	
-	io = &ImGui::GetIO();
-	
-	ImGui::StyleColorsDark();
-	
-	ImGui_ImplGlfw_InitForOpenGL(Game::m_Window, true);
-	ImGui_ImplOpenGL3_Init("#version 330");
 }
 
 PhysicsScene::~PhysicsScene() {
