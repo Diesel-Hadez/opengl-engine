@@ -44,19 +44,6 @@ void PhysicsScene::Update() {
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::UP, m_DeltaTime);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
 			m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, m_DeltaTime);
-		
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_I) == GLFW_PRESS)
-			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(10,0,0));
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_K) == GLFW_PRESS)
-			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(-10,0,0));
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_L) == GLFW_PRESS)
-			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,0,10));
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_J) == GLFW_PRESS)
-			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,0,-10));
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_U) == GLFW_PRESS)
-			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,50,0));
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_O) == GLFW_PRESS)
-			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(0,-50,0));
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_PRESS) {
 			tabPressed = true;
 		}
@@ -79,15 +66,15 @@ void PhysicsScene::Update() {
 	while (accumulator >= timeStep) {
 		m_World->update(timeStep);
 		m_Cuboid->Update(timeStep);
+		m_Plane->Update(timeStep);
 		
 		accumulator -= timeStep;
 	}
 	{
 		ImGui::Begin("Properties");
 		{
-			const r3d::Transform& transform = m_CuboidBody->getTransform();
-			const r3d::Vector3& cubePosition = transform.getPosition();
-			const r3d::Quaternion& cubeRotation = transform.getOrientation();
+			const auto& cubePosition = m_Cuboid->GetPosition();
+			const auto& cubeRotation = m_Cuboid->GetRotation();
 			
 			ImGui::Text("Cube Position: (%f, %f, %f)",
 						cubePosition.x,
@@ -99,11 +86,6 @@ void PhysicsScene::Update() {
 						cubeRotation.y,
 						cubeRotation.z,
 						cubeRotation.w);
-			
-			m_Cuboid->SetPosition(glm::vec3(cubePosition.x, cubePosition.y, cubePosition.z));
-			m_Cuboid->SetRotation(glm::quat(cubeRotation.x, cubeRotation.y, cubeRotation.z, cubeRotation.w));
-			
-			
 		}
 		{
 			const glm::vec3 cameraPos = m_FPCamera->Position;
@@ -150,34 +132,27 @@ m_DeltaTime(0.0f),
 m_Plane(std::make_unique<Plane>(glm::vec3(0.f, -4.f, 0.f), 10.f, 10.f)),
 m_PlanePosition(0, -4, 0),
 m_PlaneOrientation(r3d::Quaternion::identity()),
-m_PlaneTransform(m_PlanePosition, m_PlaneOrientation),
-m_Cuboid(std::make_unique<Cuboid>(glm::vec3(0.f,4.f,0.f), 0.1f, 0.1f,0.1f)),
-m_CuboidPosition(0, 4, 0),
-m_CuboidOrientation(r3d::Quaternion::identity()),
-m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
+m_PlaneTransform(m_PlanePosition, m_PlaneOrientation)
 {
     m_SceneName = "PhysicsScene";
 	
 	m_World = Game::m_PhysicsCommon->createPhysicsWorld();
+	m_Cuboid = std::make_unique<Cuboid>(m_World, glm::vec3(0.f,4.f,0.f), 0.1f, 0.1f,0.1f);
 	
 	
 	// For plane
 	// The parameters are divided by 2, similar to how for a sphere you use a radius
 	// instead of diameter, here we use the size from the origin to the side.
 	r3d::BoxShape * boxShape = Game::m_PhysicsCommon->createBoxShape(r3d::Vector3(5.f, 0.5f, 5.f));
-	// For cuboid
-	r3d::BoxShape * boxShape2 = Game::m_PhysicsCommon->createBoxShape(r3d::Vector3(0.05f, 0.05f, 0.05f));
 	
 	// For both
 	r3d::Transform transform = r3d::Transform::identity();
 	
 	m_PlaneBody = m_World->createRigidBody(m_PlaneTransform);
-	m_CuboidBody = m_World->createRigidBody(m_CuboidTransform);
 	
 	m_PlaneBody->enableGravity(false);
 	
 	r3d::Collider* planeCollider = m_PlaneBody->addCollider(boxShape, transform);
-	r3d::Collider* cuboidCollider = m_CuboidBody->addCollider(boxShape2, transform);
     
 	m_PlaneBody->enableGravity(false);
 	m_PlaneBody->setType(r3d::BodyType::STATIC);

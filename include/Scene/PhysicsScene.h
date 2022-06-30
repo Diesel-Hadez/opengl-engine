@@ -23,13 +23,7 @@ private:
     reactphysics3d::Quaternion m_PlaneOrientation;
     reactphysics3d::Transform m_PlaneTransform;
     
-    
-    reactphysics3d::Vector3 m_CuboidPosition;
-    reactphysics3d::Quaternion m_CuboidOrientation;
-    reactphysics3d::Transform m_CuboidTransform;
-    
     reactphysics3d::RigidBody* m_PlaneBody; 
-    reactphysics3d::RigidBody* m_CuboidBody; 
     
     const reactphysics3d::decimal timeStep = 1.0f / 60.0f;
 public:
