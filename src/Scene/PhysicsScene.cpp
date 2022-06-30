@@ -30,17 +30,17 @@ void PhysicsScene::Update() {
 	accumulator += m_DeltaTime;
 	
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, timeStep);
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, m_DeltaTime);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::BACKWARD, timeStep);
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::BACKWARD, m_DeltaTime);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_A) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::LEFT, timeStep);
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::LEFT, m_DeltaTime);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_D) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::RIGHT, timeStep);
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::RIGHT, m_DeltaTime);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_Q) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::UP, timeStep);
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::UP, m_DeltaTime);
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, timeStep);
+			m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, m_DeltaTime);
 		
 		if (glfwGetKey(Game::m_Window, GLFW_KEY_I) == GLFW_PRESS)
 			m_CuboidBody->applyWorldForceAtCenterOfMass(r3d::Vector3(10,0,0));
