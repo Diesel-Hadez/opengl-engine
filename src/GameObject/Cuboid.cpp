@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+namespace r3d = reactphysics3d;
+
 Cuboid::Cuboid(const glm::vec3& position, double width, double height, double length): 
     m_CubeGPUData(std::make_unique<PositionNormals>()) {
     m_Position = position;
@@ -14,6 +16,19 @@ Cuboid::Cuboid(const glm::vec3& position, double width, double height, double le
     m_Height = height;
     m_Length = length;
     m_CubeGPUData->Prepare(const_cast<float*>(NormalCube), sizeof(NormalCube));
+}
+
+Cuboid::Cuboid(r3d::PhysicsWorld* world, const glm::vec3& position, double width, double height, double length):
+Collidable(world, r3d::Vector3(position.x, position.y, position.z), r3d::Quaternion::identity()),
+m_CubeGPUData(std::make_unique<PositionNormals>())
+{
+    m_Position = position;
+    m_Width = width;
+    m_Height = height;
+    m_Length = length;
+    m_CubeGPUData->Prepare(const_cast<float*>(NormalCube), sizeof(NormalCube));
+    
+    AddBoxCollider(r3d::Vector3(width, height, length));
 }
 
 // Assumes shader sets projection and view appropriately
@@ -36,4 +51,13 @@ void Cuboid::Render(Shader* shader=nullptr){
 }
 
 void Cuboid::Update(double delta){
+    if (m_PhysicsWorldExists) {
+        const r3d::Transform& transform = m_CollidableBody->getTransform();
+        const r3d::Vector3& position = transform.getPosition();
+        SetPosition(glm::vec3(position.x, position.y, position.z));
+        
+        
+        const r3d::Quaternion& rotation = transform.getOrientation();
+        SetRotation(glm::quat(rotation.x, rotation.y, rotation.z, rotation.w));
+    }
 }

@@ -2,23 +2,25 @@
 #define COLLIDABLE_H
 
 #include <reactphysics3d/reactphysics3d.h>
-namespace _Collidable{
-    namespace r3d = reactphysics3d;
-    class Collidable {
-    protected:
-        r3d::Vector3 m_CollidablePosition;
-        r3d::Quaternion m_CollidableOrientation;
-        
-        r3d::RigidBody* m_CollidableBody;
-        
-        void AddBoxCollider(const r3d::Vector3& shape,
-                            const r3d::Transform& transform= r3d::Transform::identity());
-    public:
-        Collidable(r3d::PhysicsWorld* world, const r3d::Vector3&, const r3d::Quaternion&);
-        virtual ~Collidable() = default;
-    };
-}
 
-using _Collidable::Collidable;
+class Collidable {
+protected:
+    bool m_PhysicsWorldExists;
+    
+    reactphysics3d::Vector3 m_CollidablePosition;
+    reactphysics3d::Quaternion m_CollidableOrientation;
+    
+    reactphysics3d::RigidBody* m_CollidableBody;
+    
+    void AddBoxCollider(const reactphysics3d::Vector3& shape,
+                        const reactphysics3d::Transform& transform= reactphysics3d::Transform::identity());
+public:
+    void SetGravity(bool enable);
+    void SetType(reactphysics3d::BodyType type);
+public:
+    Collidable(reactphysics3d::PhysicsWorld* world, const reactphysics3d::Vector3&, const reactphysics3d::Quaternion&);
+    Collidable();
+    virtual ~Collidable() = default;
+};
 
 #endif

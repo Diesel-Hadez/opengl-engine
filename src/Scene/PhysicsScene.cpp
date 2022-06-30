@@ -22,8 +22,7 @@ namespace {
 	auto tabPressed = false;
 }
 	
-	
-using namespace _PhysicsScene;
+namespace r3d = reactphysics3d;
 
 void PhysicsScene::Update() {
 	constexpr double timeStep = 1.0 / 120.0;
