@@ -31,6 +31,8 @@ add_executable(tutorial
 	src/GameObject/Plane.cpp
 	src/GameObject/Cuboid.cpp
 	
+	src/GameObject/Interfaces/Collidable.cpp
+	
 	include/Shader.h
 	include/FPCamera.h
 	include/Game.h
@@ -55,6 +57,8 @@ add_executable(tutorial
 	include/GameObject/GameObject.h
 	include/GameObject/Plane.h
 	include/GameObject/Cuboid.h
+	
+	include/GameObject/Interfaces/Collidable.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
