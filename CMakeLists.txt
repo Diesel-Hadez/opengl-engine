@@ -7,7 +7,6 @@ project(tutorial VERSION 1.0 DESCRIPTION "Tutorial"
 add_executable(tutorial 
 	src/main.cpp
 	src/Shader.cpp
-	src/FPCamera.cpp
 	src/stb_image.cpp
 	src/Game.cpp
 	
@@ -43,9 +42,10 @@ add_executable(tutorial
 	src/Command/Camera/CameraDown.cpp
 	
 	src/Camera/CameraInputHandler.cpp
+	src/Camera/Camera.cpp
+	src/Camera/FPCamera.cpp
 	
 	include/Shader.h
-	include/FPCamera.h
 	include/Game.h
 	
 	include/Scene/Scene.h
@@ -81,6 +81,8 @@ add_executable(tutorial
 	include/Command/Camera/CameraDown.h
 	
 	include/Camera/CameraInputHandler.h
+	include/Camera/Camera.h
+	include/Camera/FPCamera.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")

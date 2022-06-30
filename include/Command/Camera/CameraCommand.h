@@ -2,12 +2,12 @@
 #define CAMERACOMMAND_H
 #include "Command/Command.h"
 
-class FPCamera;
+class Camera;
 class CameraCommand: public Command {
 protected:
-    FPCamera* m_Camera;
+    Camera* m_Camera;
 public:
-    CameraCommand(FPCamera* camera);
+    CameraCommand(Camera* camera);
     virtual ~CameraCommand() = default;
 };
 

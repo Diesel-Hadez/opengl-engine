@@ -7,7 +7,7 @@ class CameraDown: public CameraCommand {
 public:
     void execute(Scene* scene, float deltaTime) override;
     
-    CameraDown(FPCamera* camera);
+    CameraDown(Camera* camera);
     ~CameraDown() = default;
 };
 

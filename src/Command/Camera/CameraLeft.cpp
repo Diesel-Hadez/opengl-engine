@@ -1,10 +1,10 @@
 #include "Command/Camera/CameraLeft.h"
-#include "FPCamera.h"
+#include "Camera/Camera.h"
 
 void CameraLeft::execute(Scene* scene, float deltaTime) {
-    m_Camera->ProcessKeyboard(FPCamera::Movement::LEFT, deltaTime);
+    m_Camera->ProcessKeyboard(Camera::Movement::LEFT, deltaTime);
 }
 
-CameraLeft::CameraLeft(FPCamera* camera) : CameraCommand::CameraCommand(camera)
+CameraLeft::CameraLeft(Camera* camera) : CameraCommand::CameraCommand(camera)
 {
 }

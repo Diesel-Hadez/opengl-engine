@@ -1,10 +1,10 @@
 #include "Command/Camera/CameraDown.h"
-#include "FPCamera.h"
+#include "Camera/Camera.h"
 
 void CameraDown::execute(Scene* scene, float deltaTime) {
-    m_Camera->ProcessKeyboard(FPCamera::Movement::DOWN, deltaTime);
+    m_Camera->ProcessKeyboard(Camera::Movement::DOWN, deltaTime);
 }
 
-CameraDown::CameraDown(FPCamera* camera) : CameraCommand::CameraCommand(camera)
+CameraDown::CameraDown(Camera* camera) : CameraCommand::CameraCommand(camera)
 {
 }

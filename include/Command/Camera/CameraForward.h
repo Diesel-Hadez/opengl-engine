@@ -7,7 +7,7 @@ class CameraForward: public CameraCommand {
 public:
     void execute(Scene* scene, float deltaTime) override;
     
-    CameraForward(FPCamera* camera);
+    CameraForward(Camera* camera);
     ~CameraForward() = default;
 };
 

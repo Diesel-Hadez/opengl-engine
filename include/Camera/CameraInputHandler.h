@@ -1,13 +1,13 @@
 #ifndef CAMERAINPUTHANDLER_H
 #define CAMERAINPUTHANDLER_H
 
-class FPCamera;
+class Camera;
 class Command;
 class Scene;
 class CameraInputHandler {
 private:
     typedef int Key;
-    FPCamera* m_Camera;
+    Camera* m_Camera;
     Scene * m_Scene;
     
     Command* m_CommandForward;
@@ -25,7 +25,7 @@ private:
     Key m_KeyDown;
 public:
     void HandleInputs(float deltaTime);
-    CameraInputHandler(Scene* scene, FPCamera* camera);
+    CameraInputHandler(Scene* scene, Camera* camera);
     ~CameraInputHandler();
 };
 

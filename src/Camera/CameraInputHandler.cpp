@@ -23,7 +23,7 @@ void CameraInputHandler::HandleInputs(float deltaTime) {
         m_CommandBackward->execute(m_Scene, deltaTime);
 }
 
-CameraInputHandler::CameraInputHandler(Scene* scene, FPCamera* camera): m_Camera(camera),
+CameraInputHandler::CameraInputHandler(Scene* scene, Camera* camera): m_Camera(camera),
 m_Scene(scene)
 {
     // TO-DO:

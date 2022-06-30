@@ -1,10 +1,10 @@
 #include "Command/Camera/CameraForward.h"
-#include "FPCamera.h"
+#include "Camera/Camera.h"
 
 void CameraForward::execute(Scene* scene, float deltaTime) {
-    m_Camera->ProcessKeyboard(FPCamera::Movement::FORWARD, deltaTime);
+    m_Camera->ProcessKeyboard(Camera::Movement::FORWARD, deltaTime);
 }
 
-CameraForward::CameraForward(FPCamera* camera) : CameraCommand::CameraCommand(camera)
+CameraForward::CameraForward(Camera* camera) : CameraCommand::CameraCommand(camera)
 {
 }

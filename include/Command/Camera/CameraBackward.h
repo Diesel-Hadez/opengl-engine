@@ -7,7 +7,7 @@ class CameraBackward: public CameraCommand {
 public:
     void execute(Scene* scene, float deltaTime) override;
     
-    CameraBackward(FPCamera* camera);
+    CameraBackward(Camera* camera);
     ~CameraBackward() = default;
 };
 

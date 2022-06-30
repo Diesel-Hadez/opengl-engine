@@ -1,6 +1,6 @@
 #include "Scene/ColoursScene.h"
 #include "Game.h"
-#include "FPCamera.h"
+#include "Camera/FPCamera.h"
 #include "Shader.h"
 #include "GPUData/Position.h"
 #include "SampleVertices.h"
@@ -20,17 +20,17 @@ void ColoursScene::Update() {
 	m_DeltaTime    = currentFrame - lastFrame;
 	lastFrame      = currentFrame;
     if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, m_DeltaTime);
+		m_FPCamera->ProcessKeyboard(Camera::Movement::FORWARD, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::BACKWARD, m_DeltaTime);
+		m_FPCamera->ProcessKeyboard(Camera::Movement::BACKWARD, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_A) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::LEFT, m_DeltaTime);
+		m_FPCamera->ProcessKeyboard(Camera::Movement::LEFT, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_D) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::RIGHT, m_DeltaTime);
+		m_FPCamera->ProcessKeyboard(Camera::Movement::RIGHT, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_Q) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::UP, m_DeltaTime);
+		m_FPCamera->ProcessKeyboard(Camera::Movement::UP, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
-		m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, m_DeltaTime);
+		m_FPCamera->ProcessKeyboard(Camera::Movement::DOWN, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         this->m_End = true;
 }

@@ -1,3 +1,3 @@
 #include "Command/Camera/CameraCommand.h"
 
-CameraCommand::CameraCommand(FPCamera* camera) : m_Camera(camera){}
+CameraCommand::CameraCommand(Camera* camera) : m_Camera(camera){}

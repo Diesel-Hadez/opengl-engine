@@ -6,7 +6,7 @@ class CameraRight: public CameraCommand {
 public:
     void execute(Scene* scene, float deltaTime) override;
     
-    CameraRight(FPCamera* camera);
+    CameraRight(Camera* camera);
     ~CameraRight() = default;
 };
 

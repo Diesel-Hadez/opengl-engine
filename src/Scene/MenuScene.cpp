@@ -1,7 +1,7 @@
 #include "Scene/MenuScene.h"
 #include "Shader.h"
 #include "Game.h"
-#include "FPCamera.h"
+#include "Camera/FPCamera.h"
 #include "GameObject/Plane.h"
 #include "GameObject/Cuboid.h"
 #include "GPUData/PositionNormals.h"

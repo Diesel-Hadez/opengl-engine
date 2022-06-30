@@ -1,4 +1,4 @@
-#include "FPCamera.h"
+#include "Camera/FPCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -38,7 +38,8 @@ void FPCamera::ProcessMouseScroll(float yOffset) noexcept {
         Zoom = 45.0f;
 }
 
-void FPCamera::ProcessKeyboard(FPCamera::Movement direction, float deltaTime) {
+void FPCamera::ProcessKeyboard(Camera::Movement direction, float deltaTime) {
+    using Movement = Camera::Movement;
     float velocity = MovementSpeed * deltaTime;
     if (direction == Movement::FORWARD)
         Position += Front * velocity;

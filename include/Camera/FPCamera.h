@@ -2,9 +2,10 @@
 #define FPCAMERA_H
 #include <glm/glm.hpp>
 
-class FPCamera {
+#include "Camera/Camera.h"
+
+class FPCamera: public Camera{
 public:
-    enum class Movement { FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN };
     static const float YAW;
     static const float PITCH;
     static const float SPEED;
@@ -24,10 +25,10 @@ public:
     float MouseSensitivity;
     float Zoom;
 
-    void ProcessMouseMovement(float xOffset, float yOffset, bool constrainPitch = true) noexcept;
-    void ProcessMouseScroll(float yOffset) noexcept;
-    void ProcessKeyboard(FPCamera::Movement direction, float deltaTime);
-    glm::mat4 GetViewMatrix() const noexcept;
+    void ProcessMouseMovement(float xOffset, float yOffset, bool constrainPitch = true) noexcept override;
+    void ProcessMouseScroll(float yOffset) noexcept  override;
+    void ProcessKeyboard(Camera::Movement direction, float deltaTime)  override;
+    glm::mat4 GetViewMatrix() const noexcept override;
 
 private:
     void UpdateCameraVectors() noexcept;
