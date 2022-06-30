@@ -17,7 +17,6 @@ GLFWwindow * Game::m_Window = nullptr;
 Game::PhysicsCommonPtr Game::m_PhysicsCommon = std::make_unique<PhysicsCommon>();
 
 namespace {
-	static ImGuiIO* io;
 	static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);	
 }
 
@@ -81,8 +80,6 @@ void Game::InitImgui()
 {	
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	
-	io = &ImGui::GetIO();
 	
 	ImGui::StyleColorsDark();
 	
