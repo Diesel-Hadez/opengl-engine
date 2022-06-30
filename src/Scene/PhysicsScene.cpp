@@ -21,6 +21,10 @@ namespace {
 	auto cursorMode = GLFW_CURSOR_DISABLED;
 	auto tabPressed = false;
 }
+	
+	
+using namespace _PhysicsScene;
+
 void PhysicsScene::Update() {
 	constexpr double timeStep = 1.0 / 120.0;
 	double accumulator {0.0};
@@ -155,15 +159,15 @@ m_CuboidTransform(m_CuboidPosition, m_CuboidOrientation)
 {
     m_SceneName = "PhysicsScene";
 	
-	m_World = m_PhysicsCommon.createPhysicsWorld();
+	m_World = Game::m_PhysicsCommon->createPhysicsWorld();
 	
 	
 	// For plane
 	// The parameters are divided by 2, similar to how for a sphere you use a radius
 	// instead of diameter, here we use the size from the origin to the side.
-	r3d::BoxShape * boxShape = m_PhysicsCommon.createBoxShape(r3d::Vector3(5.f, 0.5f, 5.f));
+	r3d::BoxShape * boxShape = Game::m_PhysicsCommon->createBoxShape(r3d::Vector3(5.f, 0.5f, 5.f));
 	// For cuboid
-	r3d::BoxShape * boxShape2 = m_PhysicsCommon.createBoxShape(r3d::Vector3(0.05f, 0.05f, 0.05f));
+	r3d::BoxShape * boxShape2 = Game::m_PhysicsCommon->createBoxShape(r3d::Vector3(0.05f, 0.05f, 0.05f));
 	
 	// For both
 	r3d::Transform transform = r3d::Transform::identity();

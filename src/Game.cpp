@@ -10,7 +10,11 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
+
+#include <reactphysics3d/reactphysics3d.h>
+
 GLFWwindow * Game::m_Window = nullptr;
+Game::PhysicsCommonPtr Game::m_PhysicsCommon = std::make_unique<PhysicsCommon>();
 
 namespace {
 	static ImGuiIO* io;
