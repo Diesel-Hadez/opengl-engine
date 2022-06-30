@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include "Game.h"
 #include "FPCamera.h"
+#include "Camera/CameraInputHandler.h"
 #include "GameObject/Plane.h"
 #include "GameObject/Cuboid.h"
 #include "GPUData/PositionNormals.h"
@@ -31,36 +32,24 @@ void PhysicsScene::Update() {
 	m_DeltaTime    = currentFrame - lastFrame;
 	lastFrame      = currentFrame;
 	accumulator += m_DeltaTime;
-	
-	if (glfwGetKey(Game::m_Window, GLFW_KEY_W) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::FORWARD, m_DeltaTime);
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_S) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::BACKWARD, m_DeltaTime);
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_A) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::LEFT, m_DeltaTime);
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_D) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::RIGHT, m_DeltaTime);
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_Q) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::UP, m_DeltaTime);
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
-			m_FPCamera->ProcessKeyboard(FPCamera::Movement::DOWN, m_DeltaTime);
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_PRESS) {
-			tabPressed = true;
+	m_CameraInputHandler->HandleInputs(m_DeltaTime);
+	if (glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_PRESS) {
+		tabPressed = true;
+	}
+	if (tabPressed && glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_RELEASE) {
+		tabPressed = false;
+		
+		if (cursorMode == GLFW_CURSOR_DISABLED) {
+			cursorMode = GLFW_CURSOR_NORMAL;
 		}
-		if (tabPressed && glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_RELEASE) {
-			tabPressed = false;
-			
-			if (cursorMode == GLFW_CURSOR_DISABLED) {
-				cursorMode = GLFW_CURSOR_NORMAL;
-			}
-			else {
-					cursorMode = GLFW_CURSOR_DISABLED;
-			}
-			
-			glfwSetInputMode(Game::m_Window, GLFW_CURSOR, cursorMode);
+		else {
+				cursorMode = GLFW_CURSOR_DISABLED;
 		}
-		if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-			this->m_End = true;
+		
+		glfwSetInputMode(Game::m_Window, GLFW_CURSOR, cursorMode);
+	}
+	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		this->m_End = true;
 		
 	
 	while (accumulator >= timeStep) {
@@ -128,6 +117,7 @@ void PhysicsScene::Render() {
 PhysicsScene::PhysicsScene():
 m_Shader(std::make_unique<Shader>("../resources/lightingDiffuse.vs","../resources/lightingDiffuse.fs")),
 m_FPCamera(std::make_unique<FPCamera>(glm::vec3(0.0f, 0.0f, 3.0f))),
+m_CameraInputHandler(std::make_unique<CameraInputHandler>(this, m_FPCamera.get())),
 m_DeltaTime(0.0f),
 m_Plane(std::make_unique<Plane>(glm::vec3(0.f, -4.f, 0.f), 10.f, 10.f)),
 m_PlanePosition(0, -4, 0),

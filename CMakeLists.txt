@@ -33,6 +33,17 @@ add_executable(tutorial
 	
 	src/GameObject/Interfaces/Collidable.cpp
 	
+	src/Command/Command.cpp
+	src/Command/Camera/CameraCommand.cpp
+	src/Command/Camera/CameraBackward.cpp
+	src/Command/Camera/CameraForward.cpp
+	src/Command/Camera/CameraLeft.cpp
+	src/Command/Camera/CameraRight.cpp
+	src/Command/Camera/CameraUp.cpp
+	src/Command/Camera/CameraDown.cpp
+	
+	src/Camera/CameraInputHandler.cpp
+	
 	include/Shader.h
 	include/FPCamera.h
 	include/Game.h
@@ -59,6 +70,17 @@ add_executable(tutorial
 	include/GameObject/Cuboid.h
 	
 	include/GameObject/Interfaces/Collidable.h
+	
+	include/Command/Command.h
+	include/Command/Camera/CameraCommand.h
+	include/Command/Camera/CameraBackward.h
+	include/Command/Camera/CameraForward.h
+	include/Command/Camera/CameraLeft.h
+	include/Command/Camera/CameraRight.h
+	include/Command/Camera/CameraUp.h
+	include/Command/Camera/CameraDown.h
+	
+	include/Camera/CameraInputHandler.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")

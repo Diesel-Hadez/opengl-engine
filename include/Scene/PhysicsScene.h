@@ -9,10 +9,12 @@ class Shader;
 class FPCamera;
 class Cuboid;
 class Plane;
+class CameraInputHandler;
 class PhysicsScene: public Scene {
 private:
     std::unique_ptr<Shader> m_Shader;
     std::unique_ptr<FPCamera> m_FPCamera;
+    std::unique_ptr<CameraInputHandler> m_CameraInputHandler;
     std::unique_ptr<Plane> m_Plane;
     std::unique_ptr<Cuboid> m_Cuboid;
     float m_DeltaTime;
