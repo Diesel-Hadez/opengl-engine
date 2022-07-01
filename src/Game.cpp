@@ -47,7 +47,9 @@ void Game::Loop() {
 		glfwPollEvents();
         if (m_Scenes.back()->m_End) {
             m_Scenes.pop_back();
-			m_Scenes.back()->OnResume();
+			if (m_Scenes.size() > 0) {
+				m_Scenes.back()->OnResume();
+			}
 		}
 
 }
