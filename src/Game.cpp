@@ -102,7 +102,6 @@ void Game::Run() {
 		this->Loop();
 	}
 	glfwTerminate();
-    
 }
 
 
@@ -111,6 +110,7 @@ void Game::PushScene(std::unique_ptr<Scene> pushed){
 		m_Scenes.back()->OnPause();
 	}
 	m_Scenes.emplace_back(std::move(pushed));
+	m_Scenes.back()->OnResume();
 }
 
 

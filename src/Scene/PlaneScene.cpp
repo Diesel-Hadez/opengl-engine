@@ -70,6 +70,5 @@ m_Plane(std::make_unique<Plane>(glm::vec3(1.f), 10.f, 10.f))
 }
 
 PlaneScene::~PlaneScene() {
-    this->OnPause();
 }
 

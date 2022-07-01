@@ -162,11 +162,8 @@ m_PlaneTransform(m_PlanePosition, m_PlaneOrientation)
     
 	m_PlaneBody->enableGravity(false);
 	m_PlaneBody->setType(r3d::BodyType::STATIC);
-	
-	this->OnResume();
 }
 
 PhysicsScene::~PhysicsScene() {
-	//this->OnPause();
 }
 
