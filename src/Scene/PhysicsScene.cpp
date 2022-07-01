@@ -25,6 +25,18 @@ namespace {
 	
 namespace r3d = reactphysics3d;
 
+void PhysicsScene::OnPause()
+{
+	m_FPCamera->OnPause();
+}
+
+void PhysicsScene::OnResume()
+{
+	m_FPCamera->OnResume();
+	lastFrame = glfwGetTime();
+}
+
+
 void PhysicsScene::Update() {
 	constexpr double timeStep = 1.0 / 120.0;
 	double accumulator {0.0};
@@ -32,6 +44,7 @@ void PhysicsScene::Update() {
 	m_DeltaTime    = currentFrame - lastFrame;
 	lastFrame      = currentFrame;
 	accumulator += m_DeltaTime;
+	std::cout << "Delta Time: " << m_DeltaTime << std::endl;
 	m_CameraInputHandler->HandleInputs(m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_TAB) == GLFW_PRESS) {
 		tabPressed = true;
@@ -64,6 +77,7 @@ void PhysicsScene::Update() {
 		{
 			const auto& cubePosition = m_Cuboid->GetPosition();
 			const auto& cubeRotation = m_Cuboid->GetRotation();
+			std::cout << "Cube Position " << cubePosition.y << std::endl;
 			
 			ImGui::Text("Cube Position: (%f, %f, %f)",
 						cubePosition.x,
@@ -126,9 +140,14 @@ m_PlaneTransform(m_PlanePosition, m_PlaneOrientation)
 {
     m_SceneName = "PhysicsScene";
 	
-	m_World = Game::m_PhysicsCommon->createPhysicsWorld();
+	r3d::PhysicsWorld::WorldSettings settings;
+	settings.gravity = r3d::Vector3(0, -0.1, 0);
+	
+	m_World = Game::m_PhysicsCommon->createPhysicsWorld(settings);
 	m_Cuboid = std::make_unique<Cuboid>(m_World, glm::vec3(0.f,4.f,0.f), 0.1f, 0.1f,0.1f);
 	
+		const auto& cubePosition = m_Cuboid->GetPosition();
+		std::cout << "Cube Position " << cubePosition.y << std::endl;
 	
 	// For plane
 	// The parameters are divided by 2, similar to how for a sphere you use a radius
@@ -146,8 +165,11 @@ m_PlaneTransform(m_PlanePosition, m_PlaneOrientation)
     
 	m_PlaneBody->enableGravity(false);
 	m_PlaneBody->setType(r3d::BodyType::STATIC);
+	
+	this->OnResume();
 }
 
 PhysicsScene::~PhysicsScene() {
+	this->OnPause();
 }
 

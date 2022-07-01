@@ -45,8 +45,10 @@ void Game::Loop() {
 		}
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
-        if (m_Scenes.back()->m_End)
+        if (m_Scenes.back()->m_End) {
             m_Scenes.pop_back();
+			m_Scenes.back()->OnResume();
+		}
 
 }
 

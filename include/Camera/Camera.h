@@ -11,6 +11,8 @@ public:
     virtual void ProcessMouseScroll(float yOffset) noexcept;
     virtual void ProcessKeyboard(Camera::Movement direction, float deltaTime);
     virtual glm::mat4 GetViewMatrix() const noexcept = 0;
+    virtual void OnPause();
+    virtual void OnResume();
     Camera() = default;
     virtual ~Camera() = default;
 };

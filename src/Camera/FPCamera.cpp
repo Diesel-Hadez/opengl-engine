@@ -13,6 +13,40 @@ const float FPCamera::SENSITIVITY = 0.1f;
 const float FPCamera::ZOOM        = 45.0f;
 
 static FPCamera * curFPCamera = nullptr;
+
+void FPCamera::OnPause(){
+    //Reset Callback
+    glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
+	{});
+	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {});
+	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+void FPCamera::OnResume(){
+    curFPCamera = this;
+
+	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
+	{
+		static bool firstMouse = true;
+		static double lastX = static_cast<double>(WINDOW_WIDTH / 2.f), lastY = static_cast<double>(WINDOW_HEIGHT / 2.f);
+		if (firstMouse)
+		{
+			lastX = xPos;
+			lastY = yPos;
+			firstMouse = false;
+		}
+		double xOffset = xPos - lastX;
+		double yOffset = lastY - yPos;
+		lastX = xPos;
+		lastY = yPos;
+		curFPCamera->ProcessMouseMovement(xOffset, yOffset);
+	});
+	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {
+		curFPCamera->ProcessMouseScroll(yOffset);
+	});
+}
+
 void FPCamera::ProcessMouseMovement(float xOffset, float yOffset, bool constrainPitch) noexcept {
     xOffset *= MouseSensitivity;
     yOffset *= MouseSensitivity;
@@ -82,33 +116,9 @@ FPCamera::FPCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     , Pitch(pitch) {
     UpdateCameraVectors();
     
-    curFPCamera = this;
-    
-
-	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
-	{
-		static bool firstMouse = true;
-		static double lastX = static_cast<double>(WINDOW_WIDTH / 2.f), lastY = static_cast<double>(WINDOW_HEIGHT / 2.f);
-		if (firstMouse)
-		{
-			lastX = xPos;
-			lastY = yPos;
-			firstMouse = false;
-		}
-		double xOffset = xPos - lastX;
-		double yOffset = lastY - yPos;
-		lastX = xPos;
-		lastY = yPos;
-		curFPCamera->ProcessMouseMovement(xOffset, yOffset);
-	});
-	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {
-		curFPCamera->ProcessMouseScroll(yOffset);
-	});
+    this->OnResume();
 }
 
 FPCamera::~FPCamera() {
-    //Reset Callback
-    glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
-	{});
+    this->OnPause();
 }

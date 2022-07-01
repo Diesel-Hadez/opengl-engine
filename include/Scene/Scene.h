@@ -10,6 +10,9 @@ public:
 	bool m_End;
 	virtual void Update() = 0;
 	virtual void Render() = 0;
+	
+	virtual void OnPause();
+	virtual void OnResume();
 	Scene();
 	virtual ~Scene();
 };

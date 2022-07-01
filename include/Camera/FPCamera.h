@@ -30,6 +30,8 @@ public:
     void ProcessKeyboard(Camera::Movement direction, float deltaTime)  override;
     glm::mat4 GetViewMatrix() const noexcept override;
 
+    void OnPause() override;
+    void OnResume() override;
 private:
     void UpdateCameraVectors() noexcept;
 

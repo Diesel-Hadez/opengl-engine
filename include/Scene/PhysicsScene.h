@@ -31,6 +31,8 @@ private:
 public:
     virtual void Update() override;
     virtual void Render() override;
+    virtual void OnPause() override;
+    virtual void OnResume() override;
     PhysicsScene();
     ~PhysicsScene();
 };
