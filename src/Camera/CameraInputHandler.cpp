@@ -1,11 +1,6 @@
 #include "Camera/CameraInputHandler.h"
 #include <GLFW/glfw3.h>
-#include "Command/Camera/CameraUp.h"
-#include "Command/Camera/CameraDown.h"
-#include "Command/Camera/CameraLeft.h"
-#include "Command/Camera/CameraRight.h"
-#include "Command/Camera/CameraForward.h"
-#include "Command/Camera/CameraBackward.h"
+#include "Command/CameraMovement.h"
 #include "Game.h"
 
 void CameraInputHandler::HandleInputs(float deltaTime) {
@@ -35,12 +30,12 @@ m_Scene(scene)
     m_KeyUp = GLFW_KEY_Q;
     m_KeyDown = GLFW_KEY_E;
     
-    m_CommandForward = new CameraForward(m_Camera);
-    m_CommandBackward = new CameraBackward(m_Camera);
-    m_CommandLeft = new CameraLeft(m_Camera);
-    m_CommandRight = new CameraRight(m_Camera);
-    m_CommandUp = new CameraUp(m_Camera);
-    m_CommandDown = new CameraDown(m_Camera);
+    m_CommandForward = new CameraCommand(m_Camera, Camera::Movement::FORWARD);
+    m_CommandBackward = new CameraCommand(m_Camera, Camera::Movement::BACKWARD);
+    m_CommandLeft = new CameraCommand(m_Camera, Camera::Movement::LEFT);
+    m_CommandRight = new CameraCommand(m_Camera, Camera::Movement::RIGHT);
+    m_CommandUp = new CameraCommand(m_Camera, Camera::Movement::UP);
+    m_CommandDown = new CameraCommand(m_Camera, Camera::Movement::DOWN);
 }
 
 CameraInputHandler::~CameraInputHandler()
