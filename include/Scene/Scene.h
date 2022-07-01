@@ -1,8 +1,9 @@
 #ifndef SCENE_H
 #define SCENE_H
 #include <string>
+#include "Pausable.h"
 
-class Scene
+class Scene: public Pausable
 {
 protected:
 public:
@@ -11,8 +12,8 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	
-	virtual void OnPause();
-	virtual void OnResume();
+	virtual void OnPause() override;
+	virtual void OnResume() override;
 	Scene();
 	virtual ~Scene();
 };

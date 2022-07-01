@@ -45,6 +45,8 @@ add_executable(tutorial
 	src/Camera/Camera.cpp
 	src/Camera/FPCamera.cpp
 	
+	src/Pausable.cpp
+	
 	include/Shader.h
 	include/Game.h
 	
@@ -83,6 +85,8 @@ add_executable(tutorial
 	include/Camera/CameraInputHandler.h
 	include/Camera/Camera.h
 	include/Camera/FPCamera.h
+	
+	include/Pausable.h
 	)
 
 set(OpenGL_GL_PREFERENCE "GLVND")
