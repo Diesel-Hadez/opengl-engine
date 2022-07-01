@@ -44,21 +44,27 @@ void MenuScene::Update() {
 
     if (ImGui::Button("ColoursScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<ColoursScene>());
+        this->OnPause();
     }
     if (ImGui::Button("CubeScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<CubeScene>());
+        this->OnPause();
     }
     if (ImGui::Button("DiffuseScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<DiffuseScene>());
+        this->OnPause();
     }
     if (ImGui::Button("ImGuiScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<ImguiScene>());
+        this->OnPause();
     }
     if (ImGui::Button("PhysicsScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<PhysicsScene>());
+        this->OnPause();
     }
     if (ImGui::Button("PlaneScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<PlaneScene>());
+        this->OnPause();
     }
 
     if (ImGui::Button("Exit")) {

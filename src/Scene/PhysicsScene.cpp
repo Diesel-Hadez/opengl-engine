@@ -140,10 +140,7 @@ m_PlaneTransform(m_PlanePosition, m_PlaneOrientation)
 {
     m_SceneName = "PhysicsScene";
 	
-	r3d::PhysicsWorld::WorldSettings settings;
-	settings.gravity = r3d::Vector3(0, -0.1, 0);
-	
-	m_World = Game::m_PhysicsCommon->createPhysicsWorld(settings);
+	m_World = Game::m_PhysicsCommon->createPhysicsWorld();
 	m_Cuboid = std::make_unique<Cuboid>(m_World, glm::vec3(0.f,4.f,0.f), 0.1f, 0.1f,0.1f);
 	
 		const auto& cubePosition = m_Cuboid->GetPosition();

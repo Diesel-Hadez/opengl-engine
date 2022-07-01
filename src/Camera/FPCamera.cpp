@@ -4,6 +4,11 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <GLFW/glfw3.h>
+
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 #include "Game.h"
 
 const float FPCamera::YAW         = -90.0f;
@@ -17,8 +22,16 @@ static FPCamera * curFPCamera = nullptr;
 void FPCamera::OnPause(){
     //Reset Callback
     glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
-	{});
-	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {});
+	{
+        // Dispatch to ImGui
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddMousePosEvent(xPos, yPos);        
+    });
+	glfwSetScrollCallback(Game::m_Window, [](GLFWwindow * window, double xOffset, double yOffset) {
+        // Dispatch to ImGui
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddMouseWheelEvent(xOffset, yOffset);
+    });
 	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
@@ -28,6 +41,10 @@ void FPCamera::OnResume(){
 	glfwSetInputMode(Game::m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(Game::m_Window, [](GLFWwindow* window, double xPos, double yPos)
 	{
+        // Dispatch to ImGui
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddMousePosEvent(xPos, yPos);
+        
 		static bool firstMouse = true;
 		static double lastX = static_cast<double>(WINDOW_WIDTH / 2.f), lastY = static_cast<double>(WINDOW_HEIGHT / 2.f);
 		if (firstMouse)
