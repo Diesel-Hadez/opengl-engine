@@ -59,8 +59,7 @@ void MenuScene::Update() {
         this->OnPause();
     }
     if (ImGui::Button("PhysicsScene")) {
-        Game::GetInstance().m_Scenes.emplace_back(std::make_unique<PhysicsScene>());
-        this->OnPause();
+        Game::GetInstance().PushScene(std::make_unique<PhysicsScene>());
     }
     if (ImGui::Button("PlaneScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<PlaneScene>());
@@ -68,7 +67,7 @@ void MenuScene::Update() {
     }
 
     if (ImGui::Button("Exit")) {
-        this->m_End = true;
+        Game::GetInstance().PopScene();
     }
     ImGui::End();
 }

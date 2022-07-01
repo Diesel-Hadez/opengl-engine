@@ -105,6 +105,21 @@ void Game::Run() {
     
 }
 
+
+void Game::PushScene(std::unique_ptr<Scene> pushed){
+	if (m_Scenes.size() > 0) {
+		m_Scenes.back()->OnPause();
+	}
+	m_Scenes.emplace_back(std::move(pushed));
+}
+
+
+void Game::PopScene() {
+	if (m_Scenes.size() > 0) {
+		m_Scenes.back()->m_End = true;
+	}
+}
+
 Game::Game()
 {
 }

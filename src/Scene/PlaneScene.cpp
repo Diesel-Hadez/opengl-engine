@@ -32,7 +32,7 @@ void PlaneScene::Update() {
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
 		m_FPCamera->ProcessKeyboard(Camera::Movement::DOWN, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        this->m_End = true;
+		Game::GetInstance().PopScene();
 }
 
 void PlaneScene::Render() {
@@ -70,6 +70,6 @@ m_Plane(std::make_unique<Plane>(glm::vec3(1.f), 10.f, 10.f))
 }
 
 PlaneScene::~PlaneScene() {
-    
+    this->OnPause();
 }
 

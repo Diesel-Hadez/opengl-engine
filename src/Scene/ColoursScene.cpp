@@ -32,7 +32,7 @@ void ColoursScene::Update() {
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_E) == GLFW_PRESS)
 		m_FPCamera->ProcessKeyboard(Camera::Movement::DOWN, m_DeltaTime);
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        this->m_End = true;
+		Game::GetInstance().PopScene();
 }
 
 void ColoursScene::Render() {

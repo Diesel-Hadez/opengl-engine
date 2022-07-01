@@ -62,7 +62,7 @@ void PhysicsScene::Update() {
 		glfwSetInputMode(Game::m_Window, GLFW_CURSOR, cursorMode);
 	}
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		this->m_End = true;
+		Game::GetInstance().PopScene();
 		
 	
 	while (accumulator >= timeStep) {
@@ -167,6 +167,6 @@ m_PlaneTransform(m_PlanePosition, m_PlaneOrientation)
 }
 
 PhysicsScene::~PhysicsScene() {
-	this->OnPause();
+	//this->OnPause();
 }
 

@@ -32,7 +32,7 @@ void ImguiScene::Update() {
 	accumulator += m_DeltaTime;
 	
 	if (glfwGetKey(Game::m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		this->m_End = true;
+		Game::GetInstance().PopScene();
 	
 	while (accumulator >= timeStep) {		
 		accumulator -= timeStep;

@@ -33,6 +33,8 @@ public:
 		return instance;
 	}
 	void Run();
+	void PushScene(std::unique_ptr<Scene> pushed);
+	void PopScene();
 	~Game();
 };
 
