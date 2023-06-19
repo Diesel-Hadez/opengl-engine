@@ -18,6 +18,7 @@ add_executable(tutorial
 	src/Scene/PhysicsScene.cpp
 	src/Scene/ImguiScene.cpp
 	src/Scene/MenuScene.cpp
+	src/Scene/BetterLightingScene.cpp
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
@@ -52,6 +53,7 @@ add_executable(tutorial
 	include/Scene/PhysicsScene.h
 	include/Scene/ImguiScene.h
 	include/Scene/MenuScene.h
+	include/Scene/BetterLightingScene.h
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
