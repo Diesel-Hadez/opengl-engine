@@ -145,11 +145,27 @@ if (NOT imgui_POPULATED)
     target_link_libraries(imgui ${OPENGL_LIBRARIES} glfw glad)
 endif ()
 
+FetchContent_Declare(
+        assimp
+        GIT_REPOSITORY https://github.com/assimp/assimp.git
+        GIT_TAG v5.2.5
+        GIT_PROGRESS TRUE
+)
+
+# Due to false positives with dangling references
+# https://github.com/assimp/assimp/issues/5145
+# https://stackoverflow.com/a/74922872
+set(CMAKE_CXX_FLAGS_OLD "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference")
+FetchContent_MakeAvailable(assimp)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_OLD}")
+
 target_include_directories(tutorial PRIVATE 
 	"${glm_SOURCE_DIR}"
 	"${CMAKE_SOURCE_DIR}/include"
 	"${CMAKE_SOURCE_DIR}/external/stb_image"
-	"${OPENGL_INCLUDE_DIR}")
+	"${OPENGL_INCLUDE_DIR}"
+	"${ASSIMP_INCLUDE_DIR}")
 
 target_link_libraries(tutorial PRIVATE glad OpenGL::GL glfw
-	reactphysics3d imgui)
+	reactphysics3d imgui assimp)
