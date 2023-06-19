@@ -17,6 +17,7 @@ private:
     std::unique_ptr<Shader>   m_LightCubeShader;
     std::unique_ptr<FPCamera> m_FPCamera;
     std::unique_ptr<Texture>  m_CubeTexture;
+    std::unique_ptr<Texture>  m_CubeSpecularTexture;
 
     std::unique_ptr<PositionNormalsTexture> m_CubeGPUData;
     std::unique_ptr<Position>               m_LightGPUData;

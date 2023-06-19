@@ -62,6 +62,7 @@ void LightMapScene::Render() {
 
     m_Shader->Use();
     m_CubeTexture->Bind(GL_TEXTURE0);
+    m_CubeSpecularTexture->Bind(GL_TEXTURE1);
 
     glm::mat4 view = glm::mat4(1.0f);
 
@@ -81,8 +82,9 @@ void LightMapScene::Render() {
     m_Shader->Set<glm::vec3>("viewPos", m_FPCamera->Position);
 
     m_Shader->Set<glm::vec3>("material.diffuse", glm::vec3(1.f, 0.5f, 0.31f));
-    m_Shader->Set<glm::vec3>("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+    // m_Shader->Set<glm::vec3>("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
     m_Shader->Set<float>("material.shininess", 32.f);
+    m_Shader->Set<int>("material.specular", 1);
     m_Shader->Set<int>("material.diffuse", 0);
 
     m_Shader->Set<glm::vec3>("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
@@ -114,7 +116,8 @@ LightMapScene::LightMapScene()
     , m_CubeGPUData(std::make_unique<PositionNormalsTexture>())
     , m_LightGPUData(std::make_unique<Position>())
     , lampPos(glm::vec3(0.f, 1.f, 0.5f))
-    , m_CubeTexture(std::make_unique<Texture>("../resources/container2.png")) {
+    , m_CubeTexture(std::make_unique<Texture>("../resources/container2.png"))
+    , m_CubeSpecularTexture(std::make_unique<Texture>("../resources/container2_specular.png")) {
     m_SceneName = "DiffuseScene";
     m_CubeGPUData->Prepare(const_cast<float*>(NormalTexturedCube), sizeof(NormalTexturedCube));
     m_LightGPUData->Prepare(const_cast<float*>(Cube), sizeof(Cube));
