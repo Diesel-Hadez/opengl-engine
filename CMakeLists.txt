@@ -19,11 +19,13 @@ add_executable(tutorial
 	src/Scene/ImguiScene.cpp
 	src/Scene/MenuScene.cpp
 	src/Scene/BetterLightingScene.cpp
+	src/Scene/LightMapScene.cpp
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
 	src/GPUData/Position.cpp
 	src/GPUData/PositionNormals.cpp
+	src/GPUData/PositionNormalsTexture.cpp
 	
 	src/Texture.cpp
 	
@@ -54,11 +56,13 @@ add_executable(tutorial
 	include/Scene/ImguiScene.h
 	include/Scene/MenuScene.h
 	include/Scene/BetterLightingScene.h
+	include/Scene/LightMapScene.h
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
 	include/GPUData/Position.h
 	include/GPUData/PositionNormals.h
+	include/GPUData/PositionNormalsTexture.h
 	
 	include/SampleVertices.h
 	include/Texture.h
