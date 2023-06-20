@@ -20,6 +20,7 @@ add_executable(tutorial
 	src/Scene/MenuScene.cpp
 	src/Scene/BetterLightingScene.cpp
 	src/Scene/LightMapScene.cpp
+	src/Scene/ModelScene.cpp
 	
 	src/GPUData/GPUData.cpp
 	src/GPUData/PositionTexture.cpp
@@ -41,6 +42,9 @@ add_executable(tutorial
 	src/Camera/CameraInputHandler.cpp
 	src/Camera/Camera.cpp
 	src/Camera/FPCamera.cpp
+
+	src/Model/Model.cpp
+	src/Model/Mesh.cpp
 	
 	src/Pausable.cpp
 	
@@ -57,6 +61,7 @@ add_executable(tutorial
 	include/Scene/MenuScene.h
 	include/Scene/BetterLightingScene.h
 	include/Scene/LightMapScene.h
+	include/Scene/ModelScene.h
 	
 	include/GPUData/GPUData.h
 	include/GPUData/PositionTexture.h
@@ -79,6 +84,9 @@ add_executable(tutorial
 	include/Camera/CameraInputHandler.h
 	include/Camera/Camera.h
 	include/Camera/FPCamera.h
+
+	include/Model/Model.h
+	include/Model/Mesh.h
 	
 	include/Pausable.h
 	)

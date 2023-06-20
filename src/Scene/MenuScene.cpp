@@ -23,6 +23,7 @@
 #include "Scene/PlaneScene.h"
 #include "Scene/BetterLightingScene.h"
 #include "Scene/LightMapScene.h"
+#include "Scene/ModelScene.h"
 
 namespace {
     float currentFrame = 0;
@@ -62,6 +63,10 @@ void MenuScene::Update() {
     }
     if (ImGui::Button("LightMapScene")) {
         Game::GetInstance().m_Scenes.emplace_back(std::make_unique<LightMapScene>());
+        this->OnPause();
+    }
+    if (ImGui::Button("ModelScene")) {
+        Game::GetInstance().m_Scenes.emplace_back(std::make_unique<ModelScene>());
         this->OnPause();
     }
     if (ImGui::Button("ImGuiScene")) {
